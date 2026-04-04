@@ -84,7 +84,7 @@ export async function GET() {
         framework: 'Next.js 15',
         deployment: 'Railway',
         domain: 'nichegenius-web-production-9a44.up.railway.app',
-        github: 'BermudaLocals/nichegenius-ai',
+        github: 'private',
         timestamp: new Date().toISOString(),
       },
     },

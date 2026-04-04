@@ -85,7 +85,7 @@ function LikertScale({
 }) {
   const labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'];
   return (
-    <div className="flex gap-2 sm:gap-3 justify-center flex-wrap">
+    <div className="flex gap-3 max-sm:gap-2 justify-center flex-wrap">
       {[1, 2, 3, 4, 5].map((n) => (
         <motion.button
           key={n}
@@ -93,14 +93,14 @@ function LikertScale({
           whileTap={{ scale: 0.95 }}
           onClick={() => onChange(n)}
           className={cn(
-            'flex flex-col items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-3 sm:py-4 rounded-xl border transition-all min-w-[60px] sm:min-w-[90px] min-h-[44px]',
+            'flex flex-col items-center gap-2 max-sm:gap-1.5 px-5 max-sm:px-3 py-4 max-sm:py-3 rounded-xl border transition-all min-w-[90px] max-sm:min-w-[60px] min-h-[44px]',
             value === n
               ? 'bg-violet-500/20 border-violet-500/50 text-violet-300 shadow-lg shadow-violet-500/10'
               : 'bg-white/[0.03] border-white/[0.08] text-zinc-400 hover:border-white/20 hover:bg-white/[0.05]',
           )}
         >
-          <span className="text-xl sm:text-2xl font-bold">{n}</span>
-          <span className="text-[9px] sm:text-[10px] leading-tight text-center">{labels[n - 1]}</span>
+          <span className="text-2xl max-sm:text-xl font-bold">{n}</span>
+          <span className="text-[10px] max-sm:text-[9px] leading-tight text-center">{labels[n - 1]}</span>
         </motion.button>
       ))}
     </div>
@@ -128,7 +128,7 @@ function ChoiceCards({
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+    <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-3 max-sm:gap-2">
       {options.map((opt) => {
         const isSelected = multi
           ? Array.isArray(selected) && selected.includes(opt.value)
@@ -140,7 +140,7 @@ function ChoiceCards({
             whileTap={{ scale: 0.98 }}
             onClick={() => toggle(opt)}
             className={cn(
-              'px-4 py-3.5 sm:py-3 rounded-xl border text-left text-sm transition-all min-h-[48px]',
+              'px-4 py-3 max-sm:py-3.5 rounded-xl border text-left text-sm transition-all min-h-[48px]',
               isSelected
                 ? 'bg-violet-500/20 border-violet-500/50 text-violet-200'
                 : 'bg-white/[0.03] border-white/[0.08] text-zinc-400 hover:border-white/20',
@@ -148,10 +148,10 @@ function ChoiceCards({
           >
             <div className="flex items-center gap-3">
               <div className={cn(
-                'w-6 h-6 sm:w-5 sm:h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0',
+                'w-5 h-5 max-sm:w-6 max-sm:h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0',
                 isSelected ? 'border-violet-400 bg-violet-500/30' : 'border-zinc-600',
               )}>
-                {isSelected && <div className="w-2.5 h-2.5 sm:w-2 sm:h-2 rounded-full bg-violet-400" />}
+                {isSelected && <div className="w-2 h-2 max-sm:w-2.5 max-sm:h-2.5 rounded-full bg-violet-400" />}
               </div>
               <span className="text-sm">{opt.label}</span>
             </div>
@@ -176,7 +176,7 @@ function TextInput({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder || 'Type your answer...'}
       rows={4}
-      className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-base sm:text-sm placeholder:text-zinc-600 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/20 resize-none transition-all min-h-[120px]"
+      className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-sm max-sm:text-base placeholder:text-zinc-600 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/20 resize-none transition-all min-h-[120px]"
     />
   );
 }
@@ -191,8 +191,8 @@ function Timer({ startTime }: { startTime: number }) {
   const mins = Math.floor(elapsed / 60000);
   const secs = Math.floor((elapsed % 60000) / 1000);
   return (
-    <div className="flex items-center gap-1.5 text-xs sm:text-sm text-zinc-500">
-      <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+    <div className="flex items-center gap-1.5 text-sm max-sm:text-xs text-zinc-500">
+      <Clock className="w-4 h-4 max-sm:w-3.5 max-sm:h-3.5" />
       <span className="tabular-nums">{mins}:{secs.toString().padStart(2, '0')}</span>
     </div>
   );
@@ -330,24 +330,24 @@ export default function AssessmentPage() {
           animate={{ opacity: 1, scale: 1 }}
           className="text-center space-y-8 max-w-md w-full"
         >
-          <div className="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto">
+          <div className="relative w-24 h-24 max-sm:w-20 max-sm:h-20 mx-auto">
             <div className="absolute inset-0 rounded-full border-2 border-white/10" />
             <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-violet-500 animate-spin" />
             <div className="absolute inset-2 rounded-full border-2 border-transparent border-t-purple-400 animate-spin [animation-duration:1.5s]" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <Brain className="w-7 h-7 sm:w-8 sm:h-8 text-violet-400" />
+              <Brain className="w-8 h-8 max-sm:w-7 max-sm:h-7 text-violet-400" />
             </div>
           </div>
 
           <div className="space-y-2">
-            <h2 className="text-xl sm:text-2xl font-bold text-white">Our AGI is analyzing your profile</h2>
+            <h2 className="text-2xl max-sm:text-xl font-bold text-white">Our AGI is analyzing your profile</h2>
             <AnimatePresence mode="wait">
               <motion.p
                 key={loadingPhase}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="text-violet-400 text-xs sm:text-sm"
+                className="text-violet-400 text-sm max-sm:text-xs"
               >
                 {phases[loadingPhase]}
               </motion.p>
@@ -372,29 +372,29 @@ export default function AssessmentPage() {
 
       {/* Header - always visible with progress */}
       <header className="sticky top-0 z-40 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
-          <div className="flex items-center justify-between mb-2 sm:mb-3">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
-                <Brain className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
+        <div className="max-w-4xl mx-auto px-4 max-sm:px-3 py-4 max-sm:py-3">
+          <div className="flex items-center justify-between mb-3 max-sm:mb-2">
+            <div className="flex items-center gap-3 max-sm:gap-2">
+              <div className="w-8 h-8 max-sm:w-7 max-sm:h-7 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
+                <Brain className="w-4 h-4 max-sm:w-3.5 max-sm:h-3.5 text-white" />
               </div>
-              <span className="font-semibold text-xs sm:text-sm text-white hidden sm:inline">NicheGenius AI</span>
+              <span className="font-semibold text-sm max-sm:text-xs text-white inline max-sm:hidden">NicheGenius AI</span>
             </div>
-            <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-4 max-sm:gap-2">
               <Timer startTime={startTime} />
               <Badge variant="violet" size="sm">
-                <span className="hidden sm:inline">{answeredCount}/{totalQuestions} answered</span>
-                <span className="sm:hidden">{answeredCount}/{totalQuestions}</span>
+                <span className="inline max-sm:hidden">{answeredCount}/{totalQuestions} answered</span>
+                <span className="hidden max-sm:inline">{answeredCount}/{totalQuestions}</span>
               </Badge>
             </div>
           </div>
           {/* Progress bar always visible */}
           <ProgressBar value={progress} size="sm" showPercentage={false} />
-          <div className="flex items-center justify-between mt-1.5 sm:mt-2">
-            <span className="text-[10px] sm:text-xs text-zinc-500">
+          <div className="flex items-center justify-between mt-2 max-sm:mt-1.5">
+            <span className="text-xs max-sm:text-[10px] text-zinc-500">
               {currentSection.icon} {currentSection.category} › {currentSection.label}
             </span>
-            <span className="text-[10px] sm:text-xs text-zinc-500">
+            <span className="text-xs max-sm:text-[10px] text-zinc-500">
               Q{currentIndex + 1}/{totalQuestions}
             </span>
           </div>
@@ -402,7 +402,7 @@ export default function AssessmentPage() {
       </header>
 
       {/* Section Progress Dots - scrollable */}
-      <div className="max-w-4xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
+      <div className="max-w-4xl mx-auto px-4 max-sm:px-3 py-4 max-sm:py-3">
         <div className="flex gap-1 overflow-x-auto pb-2 scrollbar-none -mx-3 px-3">
           {SECTIONS.map((section, i) => {
             const sectionQuestions = questions.filter((q) => {
@@ -415,7 +415,7 @@ export default function AssessmentPage() {
               <div
                 key={section.id}
                 className={cn(
-                  'flex-shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full text-[10px] font-medium transition-all min-h-[32px] flex items-center',
+                  'flex-shrink-0 px-3 max-sm:px-2.5 py-1.5 rounded-full text-[10px] font-medium transition-all min-h-[32px] flex items-center',
                   isCurrent
                     ? 'bg-violet-500/20 text-violet-300 border border-violet-500/30'
                     : isComplete
@@ -432,7 +432,7 @@ export default function AssessmentPage() {
       </div>
 
       {/* Question Area - full width on mobile */}
-      <main className="max-w-2xl mx-auto px-3 sm:px-4 pb-28 sm:pb-32">
+      <main className="max-w-2xl mx-auto px-4 max-sm:px-3 pb-32 max-sm:pb-28">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={currentQuestion.id}
@@ -443,7 +443,7 @@ export default function AssessmentPage() {
             exit="exit"
             transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <GlassCard intensity="medium" className="p-5 sm:p-8 space-y-6 sm:space-y-8">
+            <GlassCard intensity="medium" className="p-8 max-sm:p-5 space-y-8 max-sm:space-y-6">
               {/* Question number & category */}
               <div className="flex items-center gap-2">
                 <Badge variant="violet" size="sm">Q{currentIndex + 1}</Badge>
@@ -451,12 +451,12 @@ export default function AssessmentPage() {
               </div>
 
               {/* Question text */}
-              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white leading-relaxed">
+              <h2 className="text-2xl max-md:text-xl max-sm:text-lg font-bold text-white leading-relaxed">
                 {currentQuestion.text}
               </h2>
 
               {/* Answer input based on type */}
-              <div className="pt-2 sm:pt-4">
+              <div className="pt-4 max-sm:pt-2">
                 {currentQuestion.type === 'scale' && (
                   <LikertScale
                     value={typeof currentAnswer === 'number' ? currentAnswer : undefined}
@@ -492,9 +492,9 @@ export default function AssessmentPage() {
 
       {/* Bottom Navigation - full width buttons on mobile */}
       <div className="fixed bottom-0 left-0 right-0 bg-zinc-950/90 backdrop-blur-xl border-t border-white/5 z-40">
-        <div className="max-w-2xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
+        <div className="max-w-2xl mx-auto px-4 max-sm:px-3 py-4 max-sm:py-3">
           {/* Mobile: stack buttons vertically for better touch targets */}
-          <div className="flex sm:hidden flex-col gap-2">
+          <div className="hidden max-sm:flex flex-col gap-2">
             <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
@@ -542,7 +542,7 @@ export default function AssessmentPage() {
           </div>
 
           {/* Desktop: horizontal layout */}
-          <div className="hidden sm:flex items-center justify-between">
+          <div className="flex max-sm:hidden items-center justify-between">
             <Button
               variant="ghost"
               size="md"

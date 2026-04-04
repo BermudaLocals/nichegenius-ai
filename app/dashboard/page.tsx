@@ -38,7 +38,7 @@ const NAV_ITEMS = [
 // Desktop Sidebar
 function Sidebar() {
   return (
-    <aside className="hidden lg:flex flex-col w-64 min-h-screen bg-zinc-950 border-r border-white/5 p-6 gap-2">
+    <aside className="flex max-lg:hidden flex-col w-64 min-h-screen bg-zinc-950 border-r border-white/5 p-6 gap-2">
       <Link href="/" className="flex items-center gap-2 mb-8">
         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
           <Brain className="w-4 h-4 text-white" />
@@ -71,7 +71,7 @@ function MobileHeader() {
   return (
     <>
       {/* Mobile top bar */}
-      <header className="lg:hidden sticky top-0 z-40 bg-zinc-950/90 backdrop-blur-xl border-b border-white/5">
+      <header className="hidden max-lg:sticky max-lg:block top-0 z-40 bg-zinc-950/90 backdrop-blur-xl border-b border-white/5">
         <div className="flex items-center justify-between px-4 h-14">
           <div className="flex items-center gap-2">
             <button
@@ -88,7 +88,7 @@ function MobileHeader() {
               <span className="font-bold text-sm text-white">NicheGenius AI</span>
             </Link>
           </div>
-          <Badge variant="success" size="sm" dot className="hidden sm:flex">Complete</Badge>
+          <Badge variant="success" size="sm" dot className="flex max-sm:hidden">Complete</Badge>
         </div>
       </header>
 
@@ -101,7 +101,7 @@ function MobileHeader() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden max-lg:block"
               onClick={() => setDrawerOpen(false)}
             />
             {/* Drawer */}
@@ -110,7 +110,7 @@ function MobileHeader() {
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed left-0 top-0 bottom-0 z-50 w-[280px] bg-zinc-950 border-r border-white/5 p-6 lg:hidden"
+              className="fixed left-0 top-0 bottom-0 z-50 w-[280px] bg-zinc-950 border-r border-white/5 p-6 hidden max-lg:block"
             >
               <div className="flex items-center justify-between mb-8">
                 <Link href="/" className="flex items-center gap-2" onClick={() => setDrawerOpen(false)}>
@@ -175,23 +175,23 @@ export default function DashboardPage() {
         <MobileHeader />
 
         <main className="flex-1 overflow-y-auto">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
+          <div className="max-w-6xl mx-auto px-8 max-lg:px-6 max-md:px-4 py-8 max-sm:py-6 space-y-8 max-sm:space-y-6">
 
             {/* Welcome Header */}
             <motion.div variants={fadeInUp} initial="hidden" animate="visible" custom={0}>
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex flex-row items-center max-sm:flex-col max-sm:items-start justify-between gap-3">
                 <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold">
+                  <h1 className="text-3xl max-sm:text-2xl font-bold">
                     Welcome back, <GradientText>{MOCK_USER.name}</GradientText>
                   </h1>
                   <p className="text-zinc-500 mt-1 text-sm">Here&apos;s your niche discovery progress</p>
                 </div>
-                <Badge variant="success" dot className="self-start sm:self-auto">Assessment Complete</Badge>
+                <Badge variant="success" dot className="self-auto max-sm:self-start">Assessment Complete</Badge>
               </div>
             </motion.div>
 
             {/* Quick Stats */}
-            <motion.div variants={stagger} initial="hidden" animate="visible" className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <motion.div variants={stagger} initial="hidden" animate="visible" className="grid grid-cols-4 max-lg:grid-cols-2 gap-4 max-sm:gap-3">
               {[
                 { label: 'Assessment', value: 100, suffix: '%', icon: Brain, desc: 'Complete' },
                 { label: 'Niches Found', value: 3, suffix: '', icon: Target, desc: 'Top matches' },
@@ -199,15 +199,15 @@ export default function DashboardPage() {
                 { label: 'Revenue Potential', value: 15, suffix: 'K/mo', icon: DollarSign, desc: 'Conservative estimate', format: 'currency' as const },
               ].map((stat, i) => (
                 <motion.div key={stat.label} variants={fadeInUp} custom={i * 0.1}>
-                  <GlassCard intensity="light" className="p-4 sm:p-5 space-y-2 sm:space-y-3">
+                  <GlassCard intensity="light" className="p-5 max-sm:p-4 space-y-3 max-sm:space-y-2">
                     <div className="flex items-center justify-between">
-                      <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-violet-500/10 flex items-center justify-center">
-                        <stat.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-400" />
+                      <div className="w-9 h-9 max-sm:w-8 max-sm:h-8 rounded-lg bg-violet-500/10 flex items-center justify-center">
+                        <stat.icon className="w-4 h-4 max-sm:w-3.5 max-sm:h-3.5 text-violet-400" />
                       </div>
                     </div>
                     <div>
-                      <AnimatedCounter value={stat.value} suffix={stat.suffix} className="text-xl sm:text-2xl font-bold text-white" />
-                      <p className="text-[10px] sm:text-xs text-zinc-500 mt-0.5">{stat.desc}</p>
+                      <AnimatedCounter value={stat.value} suffix={stat.suffix} className="text-2xl max-sm:text-xl font-bold text-white" />
+                      <p className="text-xs max-sm:text-[10px] text-zinc-500 mt-0.5">{stat.desc}</p>
                     </div>
                   </GlassCard>
                 </motion.div>
@@ -217,7 +217,7 @@ export default function DashboardPage() {
             {/* Top 3 Niche Matches */}
             <motion.div variants={fadeInUp} initial="hidden" animate="visible" custom={0.3}>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-base sm:text-lg font-semibold">Your Top Niche Matches</h2>
+                <h2 className="text-lg max-sm:text-base font-semibold">Your Top Niche Matches</h2>
                 <Link href="/blueprint">
                   <Button variant="ghost" size="sm" iconRight={<ChevronRight className="w-4 h-4" />} className="min-h-[44px]">
                     View Blueprint
@@ -225,10 +225,10 @@ export default function DashboardPage() {
                 </Link>
               </div>
               {/* Stack vertically on mobile, 3-col on desktop */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 max-md:grid-cols-1 gap-4">
                 {MOCK_NICHES.map((niche, i) => (
                   <motion.div key={niche.name} variants={fadeInUp} custom={0.4 + i * 0.1}>
-                    <GlassCard intensity="medium" className="p-5 sm:p-6 space-y-4 h-full">
+                    <GlassCard intensity="medium" className="p-6 max-sm:p-5 space-y-4 h-full">
                       <div className="flex items-start justify-between">
                         <Badge variant={i === 0 ? 'success' : i === 1 ? 'violet' : 'default'} size="sm">
                           #{i + 1} Match
@@ -266,11 +266,11 @@ export default function DashboardPage() {
             </motion.div>
 
             {/* Quick Actions + Activity */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+            <div className="grid grid-cols-3 max-lg:grid-cols-1 gap-6 max-sm:gap-4">
               {/* Quick Actions */}
-              <motion.div variants={fadeInUp} initial="hidden" animate="visible" custom={0.5} className="lg:col-span-1">
-                <h2 className="text-base sm:text-lg font-semibold mb-4">Quick Actions</h2>
-                <div className="space-y-2 sm:space-y-3">
+              <motion.div variants={fadeInUp} initial="hidden" animate="visible" custom={0.5} className="col-span-1">
+                <h2 className="text-lg max-sm:text-base font-semibold mb-4">Quick Actions</h2>
+                <div className="space-y-3 max-sm:space-y-2">
                   {[
                     { label: 'View Full Blueprint', href: '/blueprint', icon: Target, color: 'from-violet-500 to-purple-600' },
                     { label: 'Retake Assessment', href: '/assessment', icon: RefreshCw, color: 'from-purple-500 to-fuchsia-600' },
@@ -278,7 +278,7 @@ export default function DashboardPage() {
                     { label: 'Generate AI Video', href: '/dashboard/video', icon: Play, color: 'from-pink-500 to-rose-600' },
                   ].map((action) => (
                     <Link key={action.label} href={action.href}>
-                      <GlassCard intensity="light" className="p-3.5 sm:p-4 flex items-center gap-3 group cursor-pointer hover:border-violet-500/20 transition-all min-h-[52px]">
+                      <GlassCard intensity="light" className="p-4 max-sm:p-3.5 flex items-center gap-3 group cursor-pointer hover:border-violet-500/20 transition-all min-h-[52px]">
                         <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${action.color} flex items-center justify-center flex-shrink-0`}>
                           <action.icon className="w-4 h-4 text-white" />
                         </div>
@@ -291,21 +291,21 @@ export default function DashboardPage() {
               </motion.div>
 
               {/* Recent Activity */}
-              <motion.div variants={fadeInUp} initial="hidden" animate="visible" custom={0.6} className="lg:col-span-2">
-                <h2 className="text-base sm:text-lg font-semibold mb-4">Recent Activity</h2>
-                <GlassCard intensity="light" className="p-4 sm:p-6">
-                  <div className="space-y-4 sm:space-y-6">
+              <motion.div variants={fadeInUp} initial="hidden" animate="visible" custom={0.6} className="col-span-2 max-lg:col-span-1">
+                <h2 className="text-lg max-sm:text-base font-semibold mb-4">Recent Activity</h2>
+                <GlassCard intensity="light" className="p-6 max-sm:p-4">
+                  <div className="space-y-6 max-sm:space-y-4">
                     {MOCK_ACTIVITY.map((item, i) => (
-                      <div key={i} className="flex gap-3 sm:gap-4">
+                      <div key={i} className="flex gap-4 max-sm:gap-3">
                         <div className="flex flex-col items-center">
                           <div className="w-8 h-8 rounded-full bg-violet-500/10 flex items-center justify-center flex-shrink-0">
                             <item.icon className="w-4 h-4 text-violet-400" />
                           </div>
                           {i < MOCK_ACTIVITY.length - 1 && <div className="w-px flex-1 bg-white/5 mt-2" />}
                         </div>
-                        <div className="pb-4 sm:pb-6 min-w-0">
-                          <p className="text-xs sm:text-sm text-zinc-300">{item.text}</p>
-                          <p className="text-[10px] sm:text-xs text-zinc-600 mt-1 flex items-center gap-1">
+                        <div className="pb-6 max-sm:pb-4 min-w-0">
+                          <p className="text-sm max-sm:text-xs text-zinc-300">{item.text}</p>
+                          <p className="text-xs max-sm:text-[10px] text-zinc-600 mt-1 flex items-center gap-1">
                             <Clock className="w-3 h-3" />
                             {item.time}
                           </p>
@@ -319,10 +319,10 @@ export default function DashboardPage() {
 
             {/* Market Intelligence Summary */}
             <motion.div variants={fadeInUp} initial="hidden" animate="visible" custom={0.7}>
-              <h2 className="text-base sm:text-lg font-semibold mb-4">Market Intelligence — {MOCK_NICHES[0].name}</h2>
-              <GlassCard intensity="medium" className="p-4 sm:p-6">
+              <h2 className="text-lg max-sm:text-base font-semibold mb-4">Market Intelligence — {MOCK_NICHES[0].name}</h2>
+              <GlassCard intensity="medium" className="p-6 max-sm:p-4">
                 {/* Scrollable on mobile */}
-                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div className="grid grid-cols-4 max-lg:grid-cols-2 gap-6 max-sm:gap-4">
                   {[
                     { label: 'Market Size', value: '$4.2B', change: '+12% YoY' },
                     { label: 'Avg. Competition', value: 'Medium', change: '347 competitors' },
@@ -330,9 +330,9 @@ export default function DashboardPage() {
                     { label: 'Entry Difficulty', value: 'Low', change: 'Good opportunity' },
                   ].map((stat) => (
                     <div key={stat.label} className="space-y-1">
-                      <p className="text-[10px] sm:text-xs text-zinc-500">{stat.label}</p>
-                      <p className="text-lg sm:text-xl font-bold text-white">{stat.value}</p>
-                      <p className="text-[10px] sm:text-xs text-violet-400">{stat.change}</p>
+                      <p className="text-xs max-sm:text-[10px] text-zinc-500">{stat.label}</p>
+                      <p className="text-xl max-sm:text-lg font-bold text-white">{stat.value}</p>
+                      <p className="text-xs max-sm:text-[10px] text-violet-400">{stat.change}</p>
                     </div>
                   ))}
                 </div>

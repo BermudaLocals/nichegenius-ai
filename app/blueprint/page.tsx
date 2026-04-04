@@ -8,6 +8,7 @@ import {
   TrendingUp, DollarSign, ChevronRight, Download, Share2,
   Star, Users, Zap, BookOpen, CheckCircle2, ArrowRight,
   MessageSquare, Play, ShoppingBag, FileText, Mail,
+  Rocket, Settings, UserCheck, Palette, Package,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/card';
@@ -29,79 +30,138 @@ const TABS = [
   { id: 'niches', label: 'Niche Matches', icon: Target },
   { id: 'funnel', label: 'Sales Funnel', icon: Layers },
   { id: 'products', label: 'Products', icon: ShoppingBag },
+  { id: 'launch', label: 'Launch System', icon: Rocket },
   { id: 'content', label: 'Content Strategy', icon: Calendar },
   { id: 'video', label: 'Video Script', icon: Video },
   { id: 'market', label: 'Market Intel', icon: Globe },
 ];
 
-// ---- Mock Data ----
-const MOCK_PROFILE = {
-  mbti: 'ENFJ', enneagram: 3, topStrength: 'Communication',
-  bigFive: { openness: 82, conscientiousness: 78, extraversion: 85, agreeableness: 74, neuroticism: 32 },
+// ---- Generic Placeholder Data ----
+const PLACEHOLDER_PROFILE = {
+  mbti: 'XXXX', enneagram: '—', topStrength: 'Your Top Strength',
+  bigFive: { openness: 75, conscientiousness: 70, extraversion: 65, agreeableness: 72, neuroticism: 40 },
 };
 
-const MOCK_NICHES = [
+const PLACEHOLDER_NICHES = [
   {
-    rank: 1, name: 'AI-Powered Fitness Coaching', score: 97, personalFit: 94, market: 89,
-    description: 'Combine your communication skills with the booming AI fitness market to create personalized coaching programs.',
-    subNiches: ['AI Workout Plans', 'Nutrition AI Bots', 'Remote PT with AI', 'Wearable Data Coaching'],
-    marketSize: '$4.2B', growth: '+18%', competition: 'Medium', entry: 'Low barrier',
+    rank: 1, name: 'Your Top Niche', score: 95, personalFit: 92, market: 88,
+    description: 'Your #1 niche match based on your personality, skills, and market opportunity. This is where your strengths align with high demand.',
+    subNiches: ['Sub-Niche A', 'Sub-Niche B', 'Sub-Niche C', 'Sub-Niche D'],
+    marketSize: '$X.XB', growth: '+XX%', competition: 'Medium', entry: 'Low barrier',
   },
   {
-    rank: 2, name: 'Digital Productivity Systems', score: 91, personalFit: 88, market: 85,
-    description: 'Your organizational strengths and tech affinity align perfectly with teaching productivity systems.',
-    subNiches: ['Notion Templates', 'AI Workflow Automation', 'Time Management Courses', 'Digital Minimalism'],
-    marketSize: '$2.8B', growth: '+15%', competition: 'High', entry: 'Low barrier',
+    rank: 2, name: 'Your Second Niche', score: 88, personalFit: 85, market: 82,
+    description: 'A strong alternative niche that leverages your secondary skills and interests. Great backup option with solid market potential.',
+    subNiches: ['Sub-Niche E', 'Sub-Niche F', 'Sub-Niche G', 'Sub-Niche H'],
+    marketSize: '$X.XB', growth: '+XX%', competition: 'High', entry: 'Low barrier',
   },
   {
-    rank: 3, name: 'Sustainable Living Education', score: 84, personalFit: 82, market: 79,
-    description: 'Your values alignment and teaching ability make you ideal for the growing eco-conscious education space.',
-    subNiches: ['Zero Waste Living', 'Eco Product Reviews', 'Sustainable Fashion', 'Green Home Tech'],
-    marketSize: '$1.9B', growth: '+22%', competition: 'Low', entry: 'Very low barrier',
+    rank: 3, name: 'Your Third Niche', score: 81, personalFit: 78, market: 76,
+    description: 'An emerging opportunity that matches your values and long-term vision. Lower competition with growing demand.',
+    subNiches: ['Sub-Niche I', 'Sub-Niche J', 'Sub-Niche K', 'Sub-Niche L'],
+    marketSize: '$X.XB', growth: '+XX%', competition: 'Low', entry: 'Very low barrier',
   },
 ];
 
-const MOCK_FUNNEL = [
-  { step: 1, name: 'Lead Magnet', title: '"7-Day AI Fitness Challenge"', format: 'Free PDF + Email Sequence', price: 'Free', desc: 'Captures leads with a compelling free challenge. Delivers instant value and builds trust.' },
-  { step: 2, name: 'Tripwire', title: '"AI Workout Generator"', format: 'Low-ticket Digital Tool', price: '$27', desc: 'Converts leads into buyers with an irresistible low-price offer that delivers outsized value.' },
-  { step: 3, name: 'Core Offer', title: '"AI Fitness Mastery Course"', format: '8-Week Video Course + Community', price: '$297', desc: 'Your main revenue driver. Comprehensive course with weekly coaching calls and community access.' },
-  { step: 4, name: 'Premium', title: '"1:1 AI Coaching Program"', format: 'High-Ticket Coaching', price: '$2,497', desc: 'Premium offering for serious clients. Personalized AI coaching plans with direct access to you.' },
+const PLACEHOLDER_FUNNEL = [
+  { step: 1, name: 'Free Entry', title: '"Your Free Lead Magnet"', format: 'Free PDF / Challenge / Mini-Course', price: 'Free', desc: 'Captures leads with a compelling free offer. Delivers instant value and builds trust with your ideal audience.' },
+  { step: 2, name: 'Low-Ticket', title: '"Your Tripwire Product"', format: 'Low-Ticket Digital Product', price: '$17–$47', desc: 'Converts leads into paying customers with an irresistible low-price offer that delivers outsized value.' },
+  { step: 3, name: 'Core Offer', title: '"Your Core Product"', format: 'Video Course / Program / Membership', price: '$97–$497', desc: 'Your main revenue driver. A comprehensive product that fully solves your customer\'s core problem.' },
+  { step: 4, name: 'Premium', title: '"Your Premium Offer"', format: 'High-Ticket Coaching / Program', price: '$997–$2,997', desc: 'Premium offering for serious clients. Personalized support, group coaching, or done-for-you services.' },
+  { step: 5, name: 'Recurring', title: '"Your Recurring Revenue"', format: 'Membership / Subscription / Community', price: '$27–$97/mo', desc: 'Predictable monthly income through ongoing access, community, updates, or subscription services.' },
 ];
 
-const MOCK_PRODUCTS = [
-  { name: 'AI Workout Generator', format: 'SaaS Tool', price: '$27/mo', desc: 'AI-powered workout plans based on user goals, equipment, and fitness level' },
-  { name: 'AI Fitness Mastery', format: 'Video Course', price: '$297', desc: '8-week comprehensive course teaching how to build an AI fitness coaching business' },
-  { name: 'Fitness AI Templates', format: 'Template Pack', price: '$47', desc: 'Pre-built Notion + Airtable templates for managing AI fitness clients' },
-  { name: 'Coaching Accelerator', format: 'Group Program', price: '$997', desc: '12-week intensive program to launch your AI fitness coaching practice' },
+const PLACEHOLDER_PRODUCTS = [
+  { name: 'Your Digital Product', format: 'eBook / Template Pack', price: '$27–$47', desc: 'A digital product that solves a specific problem for your ideal client — templates, guides, or toolkits' },
+  { name: 'Your Video Course', format: 'Video Course', price: '$97–$297', desc: 'A comprehensive course teaching your expertise step-by-step with actionable lessons and resources' },
+  { name: 'Your Template Collection', format: 'Template Pack', price: '$37–$67', desc: 'Pre-built templates, swipe files, or systems your audience can plug in and use immediately' },
+  { name: 'Your Group Program', format: 'Group Program', price: '$497–$997', desc: 'A structured group coaching program with live calls, accountability, and community support' },
 ];
 
-const MOCK_CONTENT = [
-  { day: 1, platform: 'TikTok', type: 'Reel', hook: '"AI just wrote my client a perfect workout in 10 seconds"' },
-  { day: 2, platform: 'Instagram', type: 'Carousel', hook: '"5 ways AI is revolutionizing personal training"' },
-  { day: 3, platform: 'YouTube', type: 'Long-form', hook: '"I let AI coach me for 30 days — here\'s what happened"' },
-  { day: 4, platform: 'Twitter/X', type: 'Thread', hook: '"The fitness industry is about to change forever. Here\'s why →"' },
-  { day: 5, platform: 'TikTok', type: 'Reel', hook: '"My AI fitness bot just outperformed a $200/hr trainer"' },
-  { day: 6, platform: 'Instagram', type: 'Story', hook: '"Day in the life of an AI fitness coach"' },
-  { day: 7, platform: 'YouTube', type: 'Shorts', hook: '"This AI can predict your ideal workout split"' },
+const PLACEHOLDER_CONTENT = [
+  { day: 1, platform: 'TikTok', type: 'Reel', hook: '"[Your attention-grabbing hook about your niche transformation]"' },
+  { day: 2, platform: 'Instagram', type: 'Carousel', hook: '"[X ways to solve {your audience\'s biggest pain point}]"' },
+  { day: 3, platform: 'YouTube', type: 'Long-form', hook: '"[I tried {your method} for 30 days — here\'s what happened]"' },
+  { day: 4, platform: 'Twitter/X', type: 'Thread', hook: '"[Your industry] is about to change forever. Here\'s why →"' },
+  { day: 5, platform: 'TikTok', type: 'Reel', hook: '"[Quick tip that delivers immediate value to your audience]"' },
+  { day: 6, platform: 'Instagram', type: 'Story', hook: '"[Day in the life of a {your niche} creator]"' },
+  { day: 7, platform: 'YouTube', type: 'Shorts', hook: '"[One surprising fact about {your niche topic}]"' },
 ];
 
-const MOCK_SCRIPT = `Welcome to the future of fitness coaching!
+const PLACEHOLDER_SCRIPT = `Welcome to [Your Channel / Brand Name]!
 
-I'm [Your Name], and I discovered something that completely changed how I think about personal training.
+I'm [Your Name], and today I want to share something that completely changed how I think about [your niche topic].
 
-What if I told you that artificial intelligence can now create workout plans that are MORE personalized than what most human trainers offer?
+What if I told you that [your core promise / transformation]?
 
-I know that sounds crazy. But after spending 6 months testing every AI fitness tool on the market, I can tell you — the results speak for themselves.
+I know that sounds ambitious. But after [your experience / journey], I can tell you — the results speak for themselves.
 
 In this video, I'm going to show you:
-- How AI analyzes your body type, goals, and schedule to create the perfect workout
-- The 3 AI tools that are disrupting the $4.2 billion fitness industry
-- How you can start an AI fitness coaching business with zero certifications
-- My exact funnel that generates $15K/month in passive income
+- [Key point 1: The problem your audience faces]
+- [Key point 2: Your unique solution or method]
+- [Key point 3: How to get started today]
+- [Key point 4: Results they can expect]
 
 Let's dive in...
 
-[Continue for ~60 minutes covering each point with demonstrations, case studies, and actionable steps]`;
+[Continue for your target video length covering each point with demonstrations, examples, and actionable steps]`;
+
+// ---- Launch System Data ----
+const LAUNCH_STAGES = [
+  {
+    stage: 1, name: 'Tool Setup', icon: Settings,
+    color: 'from-blue-500 to-cyan-600',
+    description: 'Set up your AI-powered toolkit for rapid product creation and publishing.',
+    tasks: ['Create ChatGPT account (free or Plus)', 'Set up Canva account (free or Pro)', 'Choose your storefront: Stan Store or Beacons', 'Connect payment processing'],
+  },
+  {
+    stage: 2, name: 'Client Clarity', icon: UserCheck,
+    color: 'from-violet-500 to-purple-600',
+    description: 'Define your ideal client avatar so every product you create speaks directly to their needs.',
+    tasks: ['Identify your ideal client\'s biggest pain point', 'Define their desired transformation', 'Map their current situation vs. dream outcome', 'Create your client avatar document'],
+  },
+  {
+    stage: 3, name: 'Product Creation', icon: Package,
+    color: 'from-fuchsia-500 to-pink-600',
+    description: 'Build a digital product that solves your client\'s core problem using AI-assisted creation.',
+    tasks: ['Choose your product format (eBook, course, templates)', 'Use ChatGPT to outline and draft content', 'Structure content into actionable modules', 'Add bonuses and quick-win resources'],
+  },
+  {
+    stage: 4, name: 'Design + Publish', icon: Palette,
+    color: 'from-amber-500 to-orange-600',
+    description: 'Design professional visuals in Canva and publish on your chosen storefront.',
+    tasks: ['Design product cover and mockups in Canva', 'Create sales page graphics and thumbnails', 'Set up product listing on Stan Store / Beacons', 'Launch and share with your audience'],
+  },
+];
+
+const CREATION_TRACKS = [
+  {
+    track: 1, name: 'Beginner (Manual)', badge: 'Easy Start',
+    description: 'Write and format everything yourself using ChatGPT for content and Canva for design. Best for learning the process.',
+    tools: ['ChatGPT (content writing)', 'Canva (manual design)', 'Google Docs (drafting)'],
+    time: '5–7 days', difficulty: 'Beginner',
+  },
+  {
+    track: 2, name: 'Fast (Canva AI)', badge: 'Recommended',
+    description: 'Leverage Canva\'s AI features for rapid design and layout. Let AI handle formatting while you focus on content.',
+    tools: ['ChatGPT (content)', 'Canva AI (auto-design)', 'Magic Write (copy)'],
+    time: '2–3 days', difficulty: 'Intermediate',
+  },
+  {
+    track: 3, name: 'Advanced (Interactive App)', badge: 'Pro Level',
+    description: 'Build an interactive digital product or app experience. Highest value, highest perceived worth.',
+    tools: ['ChatGPT + Code Interpreter', 'Canva (branding)', 'Web builder / No-code tool'],
+    time: '7–14 days', difficulty: 'Advanced',
+  },
+];
+
+const SALES_LADDER = [
+  { level: 1, name: 'Free Entry', price: '$0', color: 'from-green-500 to-emerald-600', desc: 'Lead magnet, free challenge, or mini-guide to build your email list and establish trust.', examples: 'Free PDF, Checklist, 3-Day Challenge, Quiz' },
+  { level: 2, name: 'Low-Ticket', price: '$7–$47', color: 'from-blue-500 to-cyan-600', desc: 'Small, focused product that converts subscribers into paying customers.', examples: 'Template pack, Mini-course, Toolkit, Swipe file' },
+  { level: 3, name: 'Core Offer', price: '$97–$497', color: 'from-violet-500 to-purple-600', desc: 'Your main product that delivers the full transformation your audience needs.', examples: 'Full course, Comprehensive program, Membership' },
+  { level: 4, name: 'Premium Offer', price: '$997–$2,997', color: 'from-fuchsia-500 to-pink-600', desc: 'High-touch, premium experience for clients who want accelerated results.', examples: 'Group coaching, Done-with-you program, VIP access' },
+  { level: 5, name: 'Recurring Revenue', price: '$27–$97/mo', color: 'from-amber-500 to-orange-600', desc: 'Predictable monthly income through ongoing value delivery.', examples: 'Community membership, Subscription box, Monthly content' },
+];
 
 // ============================================
 // TAB CONTENT COMPONENTS
@@ -109,44 +169,44 @@ Let's dive in...
 
 function OverviewTab() {
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="space-y-8 max-lg:space-y-6">
       <motion.div variants={fadeIn} initial="hidden" animate="visible">
-        <GlassCard intensity="medium" className="p-5 sm:p-6 space-y-4">
-          <h3 className="text-base sm:text-lg font-semibold text-white">Executive Summary</h3>
-          <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
-            Based on your ENFJ personality type, high extraversion, strong communication skills, and passion for health technology,
-            our AGI engine identified <strong className="text-violet-300">AI-Powered Fitness Coaching</strong> as your #1 niche match
-            with a 97% confidence score. The $4.2B market is growing at 18% annually with medium competition,
-            making it an ideal entry point for your unique skill set.
+        <GlassCard intensity="medium" className="p-6 max-md:p-5 space-y-4">
+          <h3 className="text-lg max-md:text-base font-semibold text-white">Executive Summary</h3>
+          <p className="text-sm max-md:text-xs text-zinc-400 leading-relaxed">
+            Based on your personality assessment results, skill profile, and market analysis,
+            our AGI engine has identified your <strong className="text-violet-300">top niche matches</strong> with
+            confidence scores. Your unique combination of strengths, interests, and experience aligns
+            with high-growth markets that match your entrepreneurial DNA.
           </p>
         </GlassCard>
       </motion.div>
 
       <motion.div variants={fadeIn} initial="hidden" animate="visible" custom={0.1}>
-        <h3 className="text-base sm:text-lg font-semibold text-white mb-4">Your Personality Profile</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-          <GlassCard intensity="light" className="p-4 sm:p-5 text-center space-y-2">
-            <p className="text-[10px] sm:text-xs text-zinc-500">MBTI Type</p>
-            <p className="text-2xl sm:text-3xl font-bold text-violet-400">{MOCK_PROFILE.mbti}</p>
-            <p className="text-[10px] sm:text-xs text-zinc-500">"The Protagonist"</p>
+        <h3 className="text-lg max-md:text-base font-semibold text-white mb-4">Your Personality Profile</h3>
+        <div className="grid grid-cols-3 max-md:grid-cols-1 gap-4 max-md:gap-3">
+          <GlassCard intensity="light" className="p-5 max-md:p-4 text-center space-y-2">
+            <p className="text-xs max-sm:text-[10px] text-zinc-500">MBTI Type</p>
+            <p className="text-3xl max-md:text-2xl font-bold text-violet-400">{PLACEHOLDER_PROFILE.mbti}</p>
+            <p className="text-xs max-sm:text-[10px] text-zinc-500">Your personality type</p>
           </GlassCard>
-          <GlassCard intensity="light" className="p-4 sm:p-5 text-center space-y-2">
-            <p className="text-[10px] sm:text-xs text-zinc-500">Enneagram</p>
-            <p className="text-2xl sm:text-3xl font-bold text-purple-400">Type {MOCK_PROFILE.enneagram}</p>
-            <p className="text-[10px] sm:text-xs text-zinc-500">"The Achiever"</p>
+          <GlassCard intensity="light" className="p-5 max-md:p-4 text-center space-y-2">
+            <p className="text-xs max-sm:text-[10px] text-zinc-500">Enneagram</p>
+            <p className="text-3xl max-md:text-2xl font-bold text-purple-400">Type {PLACEHOLDER_PROFILE.enneagram}</p>
+            <p className="text-xs max-sm:text-[10px] text-zinc-500">Your core motivation</p>
           </GlassCard>
-          <GlassCard intensity="light" className="p-4 sm:p-5 text-center space-y-2">
-            <p className="text-[10px] sm:text-xs text-zinc-500">Top Strength</p>
-            <p className="text-2xl sm:text-3xl font-bold text-fuchsia-400">{MOCK_PROFILE.topStrength}</p>
-            <p className="text-[10px] sm:text-xs text-zinc-500">Key differentiator</p>
+          <GlassCard intensity="light" className="p-5 max-md:p-4 text-center space-y-2">
+            <p className="text-xs max-sm:text-[10px] text-zinc-500">Top Strength</p>
+            <p className="text-3xl max-md:text-2xl font-bold text-fuchsia-400">{PLACEHOLDER_PROFILE.topStrength}</p>
+            <p className="text-xs max-sm:text-[10px] text-zinc-500">Key differentiator</p>
           </GlassCard>
         </div>
       </motion.div>
 
       <motion.div variants={fadeIn} initial="hidden" animate="visible" custom={0.2}>
-        <GlassCard intensity="light" className="p-5 sm:p-6 space-y-4">
+        <GlassCard intensity="light" className="p-6 max-md:p-5 space-y-4">
           <h3 className="text-sm font-semibold text-white">Big Five Personality Traits</h3>
-          {Object.entries(MOCK_PROFILE.bigFive).map(([trait, val]) => (
+          {Object.entries(PLACEHOLDER_PROFILE.bigFive).map(([trait, val]) => (
             <div key={trait} className="space-y-1">
               <div className="flex justify-between text-xs">
                 <span className="text-zinc-400 capitalize">{trait}</span>
@@ -159,13 +219,13 @@ function OverviewTab() {
       </motion.div>
 
       <motion.div variants={fadeIn} initial="hidden" animate="visible" custom={0.3}>
-        <h3 className="text-base sm:text-lg font-semibold text-white mb-4">Top 3 Niche Matches</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-          {MOCK_NICHES.map((n, i) => (
-            <GlassCard key={n.name} intensity="light" className="p-4 sm:p-5 text-center space-y-3">
+        <h3 className="text-lg max-md:text-base font-semibold text-white mb-4">Top 3 Niche Matches</h3>
+        <div className="grid grid-cols-3 max-md:grid-cols-1 gap-4 max-md:gap-3">
+          {PLACEHOLDER_NICHES.map((n, i) => (
+            <GlassCard key={n.name} intensity="light" className="p-5 max-md:p-4 text-center space-y-3">
               <Badge variant={i === 0 ? 'success' : 'default'} size="sm">#{n.rank}</Badge>
               <ScoreRing score={n.score} size={70} strokeWidth={5} label="Match" delay={0.5 + i * 0.2} />
-              <h4 className="text-xs sm:text-sm font-semibold text-white">{n.name}</h4>
+              <h4 className="text-sm max-md:text-xs font-semibold text-white">{n.name}</h4>
             </GlassCard>
           ))}
         </div>
@@ -176,22 +236,22 @@ function OverviewTab() {
 
 function NicheMatchesTab() {
   return (
-    <div className="space-y-4 sm:space-y-6">
-      {MOCK_NICHES.map((niche, i) => (
+    <div className="space-y-6 max-md:space-y-4">
+      {PLACEHOLDER_NICHES.map((niche, i) => (
         <motion.div key={niche.name} variants={fadeIn} initial="hidden" animate="visible" custom={i * 0.1}>
-          <GlassCard intensity="medium" className="p-5 sm:p-6 space-y-4 sm:space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+          <GlassCard intensity="medium" className="p-6 max-md:p-5 space-y-6 max-md:space-y-4">
+            <div className="flex items-start justify-between gap-4 max-sm:flex-col">
               <div className="flex-1">
                 <Badge variant={i === 0 ? 'success' : i === 1 ? 'violet' : 'default'}>#{niche.rank} Match</Badge>
-                <h3 className="text-lg sm:text-xl font-bold text-white mt-2">{niche.name}</h3>
-                <p className="text-xs sm:text-sm text-zinc-400 mt-1">{niche.description}</p>
+                <h3 className="text-xl max-md:text-lg font-bold text-white mt-2">{niche.name}</h3>
+                <p className="text-sm max-md:text-xs text-zinc-400 mt-1">{niche.description}</p>
               </div>
-              <div className="flex justify-center sm:justify-end">
+              <div className="flex justify-end max-sm:justify-center">
                 <ScoreRing score={niche.score} size={80} strokeWidth={6} label="Score" delay={0.3 + i * 0.2} />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-4">
               <div className="space-y-2">
                 <div className="flex justify-between text-xs"><span className="text-zinc-500">Personal Fit</span><span className="text-zinc-300">{niche.personalFit}%</span></div>
                 <ProgressBar value={niche.personalFit} size="sm" showPercentage={false} />
@@ -223,41 +283,42 @@ function NicheMatchesTab() {
 
 function SalesFunnelTab() {
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="space-y-6 max-md:space-y-4">
       <motion.div variants={fadeIn} initial="hidden" animate="visible">
-        <GlassCard intensity="medium" className="p-5 sm:p-6">
-          <h3 className="text-base sm:text-lg font-semibold text-white mb-2">Your 4-Step Sales Funnel</h3>
-          <p className="text-xs sm:text-sm text-zinc-400">Optimized for the AI Fitness Coaching niche. Each step builds trust and increases commitment.</p>
+        <GlassCard intensity="medium" className="p-6 max-md:p-5">
+          <h3 className="text-lg max-md:text-base font-semibold text-white mb-2">Your 5-Level Sales Ladder</h3>
+          <p className="text-sm max-md:text-xs text-zinc-400">A complete revenue system from free entry to recurring income. Each level builds trust and increases customer lifetime value.</p>
         </GlassCard>
       </motion.div>
 
-      <div className="space-y-3 sm:space-y-4">
-        {MOCK_FUNNEL.map((step, i) => (
+      <div className="space-y-4 max-md:space-y-3">
+        {PLACEHOLDER_FUNNEL.map((step, i) => (
           <motion.div key={step.step} variants={fadeIn} initial="hidden" animate="visible" custom={0.1 + i * 0.1}>
-            <GlassCard intensity="light" className="p-5 sm:p-6">
-              <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+            <GlassCard intensity="light" className="p-6 max-md:p-5">
+              <div className="flex items-start gap-4 max-sm:flex-col max-sm:gap-3">
                 <div className={cn(
-                  'w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-white font-bold',
+                  'w-12 h-12 max-md:w-10 max-md:h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-white font-bold',
                   i === 0 ? 'bg-gradient-to-br from-green-500 to-emerald-600' :
                   i === 1 ? 'bg-gradient-to-br from-blue-500 to-cyan-600' :
                   i === 2 ? 'bg-gradient-to-br from-violet-500 to-purple-600' :
+                  i === 3 ? 'bg-gradient-to-br from-fuchsia-500 to-pink-600' :
                   'bg-gradient-to-br from-amber-500 to-orange-600',
                 )}>
                   {step.step}
                 </div>
                 <div className="flex-1 space-y-2 w-full">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="flex items-center justify-between gap-2 max-sm:flex-col max-sm:items-start">
                     <div>
                       <Badge variant="default" size="sm">{step.name}</Badge>
-                      <h4 className="text-sm sm:text-base font-semibold text-white mt-1">{step.title}</h4>
+                      <h4 className="text-base max-md:text-sm font-semibold text-white mt-1">{step.title}</h4>
                     </div>
-                    <span className="text-lg sm:text-xl font-bold text-violet-400">{step.price}</span>
+                    <span className="text-xl max-md:text-lg font-bold text-violet-400">{step.price}</span>
                   </div>
-                  <p className="text-[10px] sm:text-xs text-zinc-500">{step.format}</p>
-                  <p className="text-xs sm:text-sm text-zinc-400">{step.desc}</p>
+                  <p className="text-xs max-sm:text-[10px] text-zinc-500">{step.format}</p>
+                  <p className="text-sm max-md:text-xs text-zinc-400">{step.desc}</p>
                 </div>
               </div>
-              {i < MOCK_FUNNEL.length - 1 && (
+              {i < PLACEHOLDER_FUNNEL.length - 1 && (
                 <div className="flex justify-center py-2">
                   <ChevronRight className="w-5 h-5 text-zinc-700 rotate-90" />
                 </div>
@@ -272,16 +333,16 @@ function SalesFunnelTab() {
 
 function ProductsTab() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-      {MOCK_PRODUCTS.map((product, i) => (
+    <div className="grid grid-cols-2 max-md:grid-cols-1 gap-4 max-md:gap-3">
+      {PLACEHOLDER_PRODUCTS.map((product, i) => (
         <motion.div key={product.name} variants={fadeIn} initial="hidden" animate="visible" custom={i * 0.1}>
-          <GlassCard intensity="light" className="p-5 sm:p-6 h-full space-y-3">
+          <GlassCard intensity="light" className="p-6 max-md:p-5 h-full space-y-3">
             <div className="flex items-start justify-between">
               <Badge variant="violet" size="sm">{product.format}</Badge>
-              <span className="text-base sm:text-lg font-bold text-white">{product.price}</span>
+              <span className="text-lg max-md:text-base font-bold text-white">{product.price}</span>
             </div>
-            <h4 className="text-sm sm:text-base font-semibold text-white">{product.name}</h4>
-            <p className="text-xs sm:text-sm text-zinc-400">{product.desc}</p>
+            <h4 className="text-base max-md:text-sm font-semibold text-white">{product.name}</h4>
+            <p className="text-sm max-md:text-xs text-zinc-400">{product.desc}</p>
           </GlassCard>
         </motion.div>
       ))}
@@ -289,28 +350,128 @@ function ProductsTab() {
   );
 }
 
-function ContentTab() {
+function LaunchSystemTab() {
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="space-y-8 max-lg:space-y-6">
+      {/* 4-Stage Workflow */}
       <motion.div variants={fadeIn} initial="hidden" animate="visible">
-        <GlassCard intensity="medium" className="p-5 sm:p-6">
-          <h3 className="text-base sm:text-lg font-semibold text-white mb-2">30-Day Content Calendar</h3>
-          <p className="text-xs sm:text-sm text-zinc-400">Platform-specific content plan with hooks, formats, and posting schedule. First 7 days shown.</p>
+        <GlassCard intensity="medium" className="p-6 max-md:p-5">
+          <h3 className="text-lg max-md:text-base font-semibold text-white mb-2">AI Product Launch System — 4-Stage Workflow</h3>
+          <p className="text-sm max-md:text-xs text-zinc-400">Follow these four stages to go from zero to a published digital product using AI tools. Each stage builds on the previous one.</p>
         </GlassCard>
       </motion.div>
-      <div className="space-y-2 sm:space-y-3">
-        {MOCK_CONTENT.map((item, i) => (
+
+      <div className="grid grid-cols-4 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-4">
+        {LAUNCH_STAGES.map((stage, i) => (
+          <motion.div key={stage.stage} variants={fadeIn} initial="hidden" animate="visible" custom={0.1 + i * 0.1}>
+            <GlassCard intensity="light" className="p-6 max-md:p-5 h-full space-y-4">
+              <div className={cn('w-12 h-12 max-md:w-10 max-md:h-10 rounded-xl flex items-center justify-center', `bg-gradient-to-br ${stage.color}`)}>
+                <stage.icon className="w-6 h-6 max-md:w-5 max-md:h-5 text-white" />
+              </div>
+              <div>
+                <Badge variant="violet" size="sm">Stage {stage.stage}</Badge>
+                <h4 className="text-base max-md:text-sm font-bold text-white mt-2">{stage.name}</h4>
+              </div>
+              <p className="text-xs text-zinc-400 leading-relaxed">{stage.description}</p>
+              <ul className="space-y-2">
+                {stage.tasks.map((task, j) => (
+                  <li key={j} className="flex items-start gap-2 text-xs text-zinc-300">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-green-400 flex-shrink-0 mt-0.5" />
+                    <span>{task}</span>
+                  </li>
+                ))}
+              </ul>
+            </GlassCard>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* 3 Creation Tracks */}
+      <motion.div variants={fadeIn} initial="hidden" animate="visible" custom={0.3}>
+        <h3 className="text-lg max-md:text-base font-semibold text-white mb-4">Choose Your Creation Track</h3>
+        <div className="grid grid-cols-3 max-md:grid-cols-1 gap-4">
+          {CREATION_TRACKS.map((track, i) => (
+            <GlassCard key={track.track} intensity={i === 1 ? 'medium' : 'light'} className={cn('p-6 max-md:p-5 h-full space-y-4', i === 1 && 'ring-1 ring-violet-500/30')}>
+              <div className="flex items-center justify-between">
+                <Badge variant={i === 1 ? 'success' : 'default'} size="sm">{track.badge}</Badge>
+                <span className="text-xs text-zinc-500">Track {track.track}</span>
+              </div>
+              <h4 className="text-base max-md:text-sm font-bold text-white">{track.name}</h4>
+              <p className="text-xs text-zinc-400 leading-relaxed">{track.description}</p>
+              <div className="space-y-2">
+                <p className="text-[10px] text-zinc-500 uppercase tracking-wider">Tools Used</p>
+                {track.tools.map((tool) => (
+                  <div key={tool} className="flex items-center gap-2 text-xs text-zinc-300">
+                    <Zap className="w-3 h-3 text-violet-400 flex-shrink-0" />
+                    <span>{tool}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-between pt-2 border-t border-white/5">
+                <div className="space-y-0.5">
+                  <p className="text-[10px] text-zinc-500">Timeline</p>
+                  <p className="text-xs font-semibold text-white">{track.time}</p>
+                </div>
+                <div className="space-y-0.5 text-right">
+                  <p className="text-[10px] text-zinc-500">Difficulty</p>
+                  <p className="text-xs font-semibold text-white">{track.difficulty}</p>
+                </div>
+              </div>
+            </GlassCard>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* 5-Level Sales Ladder */}
+      <motion.div variants={fadeIn} initial="hidden" animate="visible" custom={0.4}>
+        <h3 className="text-lg max-md:text-base font-semibold text-white mb-4">5-Level Sales Ladder</h3>
+        <GlassCard intensity="medium" className="p-6 max-md:p-5 space-y-1">
+          {SALES_LADDER.map((level, i) => (
+            <div key={level.level} className="flex items-stretch gap-4 max-sm:flex-col max-sm:gap-2">
+              <div className="flex flex-col items-center max-sm:flex-row max-sm:gap-3">
+                <div className={cn('w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm', `bg-gradient-to-br ${level.color}`)}>
+                  {level.level}
+                </div>
+                {i < SALES_LADDER.length - 1 && <div className="w-0.5 flex-1 bg-white/5 my-1 max-sm:hidden" />}
+              </div>
+              <div className="flex-1 pb-6 max-sm:pb-4">
+                <div className="flex items-center gap-3 mb-1">
+                  <h4 className="text-sm font-semibold text-white">{level.name}</h4>
+                  <span className="text-sm font-bold text-violet-400">{level.price}</span>
+                </div>
+                <p className="text-xs text-zinc-400 mb-2">{level.desc}</p>
+                <p className="text-[10px] text-zinc-500"><span className="text-zinc-400">Examples:</span> {level.examples}</p>
+              </div>
+            </div>
+          ))}
+        </GlassCard>
+      </motion.div>
+    </div>
+  );
+}
+
+function ContentTab() {
+  return (
+    <div className="space-y-6 max-md:space-y-4">
+      <motion.div variants={fadeIn} initial="hidden" animate="visible">
+        <GlassCard intensity="medium" className="p-6 max-md:p-5">
+          <h3 className="text-lg max-md:text-base font-semibold text-white mb-2">30-Day Content Calendar</h3>
+          <p className="text-sm max-md:text-xs text-zinc-400">Platform-specific content plan with hooks, formats, and posting schedule. First 7 days shown as a template.</p>
+        </GlassCard>
+      </motion.div>
+      <div className="space-y-3 max-md:space-y-2">
+        {PLACEHOLDER_CONTENT.map((item, i) => (
           <motion.div key={i} variants={fadeIn} initial="hidden" animate="visible" custom={i * 0.05}>
-            <GlassCard intensity="light" className="p-3.5 sm:p-4 flex items-center gap-3 sm:gap-4">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
-                <span className="text-xs sm:text-sm font-bold text-violet-400">D{item.day}</span>
+            <GlassCard intensity="light" className="p-4 max-md:p-3.5 flex items-center gap-4 max-md:gap-3">
+              <div className="w-10 h-10 max-md:w-9 max-md:h-9 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
+                <span className="text-sm max-md:text-xs font-bold text-violet-400">D{item.day}</span>
               </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                <div className="flex items-center gap-2 max-md:gap-1.5 flex-wrap">
                   <Badge variant="default" size="sm">{item.platform}</Badge>
                   <Badge variant="violet" size="sm">{item.type}</Badge>
                 </div>
-                <p className="text-xs sm:text-sm text-zinc-300 mt-1 truncate">{item.hook}</p>
+                <p className="text-sm max-md:text-xs text-zinc-300 mt-1 truncate">{item.hook}</p>
               </div>
             </GlassCard>
           </motion.div>
@@ -322,24 +483,24 @@ function ContentTab() {
 
 function VideoScriptTab() {
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="space-y-6 max-md:space-y-4">
       <motion.div variants={fadeIn} initial="hidden" animate="visible">
-        <GlassCard intensity="medium" className="p-5 sm:p-6 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <GlassCard intensity="medium" className="p-6 max-md:p-5 space-y-4">
+          <div className="flex items-center justify-between gap-3 max-sm:flex-col">
             <div>
-              <h3 className="text-base sm:text-lg font-semibold text-white">AI-Generated Video Script</h3>
-              <p className="text-xs sm:text-sm text-zinc-400">60-minute TikTok Live / YouTube script for your niche introduction</p>
+              <h3 className="text-lg max-md:text-base font-semibold text-white">AI-Generated Video Script</h3>
+              <p className="text-sm max-md:text-xs text-zinc-400">Customizable video script template for your niche introduction — ready for TikTok, YouTube, or Live</p>
             </div>
-            <Button variant="primary" size="sm" iconLeft={<Play className="w-4 h-4" />} className="min-h-[44px] w-full sm:w-auto">
+            <Button variant="primary" size="sm" iconLeft={<Play className="w-4 h-4" />} className="min-h-[44px] max-sm:w-full">
               Generate HeyGen Video
             </Button>
           </div>
         </GlassCard>
       </motion.div>
       <motion.div variants={fadeIn} initial="hidden" animate="visible" custom={0.1}>
-        <GlassCard intensity="light" className="p-5 sm:p-6">
-          <pre className="text-xs sm:text-sm text-zinc-300 whitespace-pre-wrap leading-relaxed font-sans">
-            {MOCK_SCRIPT}
+        <GlassCard intensity="light" className="p-6 max-md:p-5">
+          <pre className="text-sm max-md:text-xs text-zinc-300 whitespace-pre-wrap leading-relaxed font-sans">
+            {PLACEHOLDER_SCRIPT}
           </pre>
         </GlassCard>
       </motion.div>
@@ -348,11 +509,11 @@ function VideoScriptTab() {
 }
 
 function MarketIntelTab() {
-  const niche = MOCK_NICHES[0];
+  const niche = PLACEHOLDER_NICHES[0];
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="space-y-6 max-md:space-y-4">
       <motion.div variants={fadeIn} initial="hidden" animate="visible">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-4 max-md:grid-cols-2 gap-4 max-md:gap-3">
           {[
             { label: 'Market Size', value: niche.marketSize, icon: DollarSign },
             { label: 'Annual Growth', value: niche.growth, icon: TrendingUp },
@@ -360,10 +521,10 @@ function MarketIntelTab() {
             { label: 'Entry Barrier', value: niche.entry, icon: Zap },
           ].map((stat, i) => (
             <motion.div key={stat.label} variants={fadeIn} custom={i * 0.08}>
-              <GlassCard intensity="light" className="p-4 sm:p-5 space-y-2">
-                <stat.icon className="w-4 h-4 sm:w-5 sm:h-5 text-violet-400" />
-                <p className="text-[10px] sm:text-xs text-zinc-500">{stat.label}</p>
-                <p className="text-lg sm:text-xl font-bold text-white">{stat.value}</p>
+              <GlassCard intensity="light" className="p-5 max-md:p-4 space-y-2">
+                <stat.icon className="w-5 h-5 max-md:w-4 max-md:h-4 text-violet-400" />
+                <p className="text-xs max-sm:text-[10px] text-zinc-500">{stat.label}</p>
+                <p className="text-xl max-md:text-lg font-bold text-white">{stat.value}</p>
               </GlassCard>
             </motion.div>
           ))}
@@ -371,26 +532,27 @@ function MarketIntelTab() {
       </motion.div>
 
       <motion.div variants={fadeIn} initial="hidden" animate="visible" custom={0.2}>
-        <GlassCard intensity="medium" className="p-5 sm:p-6 space-y-4">
-          <h3 className="text-base sm:text-lg font-semibold text-white">Competitor Landscape</h3>
+        <GlassCard intensity="medium" className="p-6 max-md:p-5 space-y-4">
+          <h3 className="text-lg max-md:text-base font-semibold text-white">Competitor Landscape</h3>
+          <p className="text-sm max-md:text-xs text-zinc-400 mb-3">Competitor data will be populated based on your specific niche analysis. Below is a template showing the format.</p>
           <div className="space-y-3">
             {[
-              { name: 'FitAI Pro', audience: '120K', strength: 'App-first approach', weakness: 'No coaching element' },
-              { name: 'GymGenius', audience: '85K', strength: 'Strong community', weakness: 'No AI integration' },
-              { name: 'TrainSmart AI', audience: '45K', strength: 'Advanced algorithms', weakness: 'Poor marketing' },
+              { name: 'Competitor A', audience: 'XXK', strength: 'Strong content strategy', weakness: 'No community element' },
+              { name: 'Competitor B', audience: 'XXK', strength: 'Large engaged community', weakness: 'Outdated product offerings' },
+              { name: 'Competitor C', audience: 'XXK', strength: 'Innovative product format', weakness: 'Weak marketing presence' },
             ].map((comp) => (
-              <div key={comp.name} className="flex items-start sm:items-center gap-3 sm:gap-4 p-3 rounded-xl bg-white/[0.02]">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-violet-500/10 flex items-center justify-center flex-shrink-0">
+              <div key={comp.name} className="flex items-center gap-4 max-md:gap-3 p-3 rounded-xl bg-white/[0.02]">
+                <div className="w-10 h-10 max-md:w-9 max-md:h-9 rounded-full bg-violet-500/10 flex items-center justify-center flex-shrink-0">
                   <Users className="w-4 h-4 text-violet-400" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs sm:text-sm font-semibold text-white">{comp.name}</span>
+                    <span className="text-sm max-md:text-xs font-semibold text-white">{comp.name}</span>
                     <Badge variant="default" size="sm">{comp.audience} followers</Badge>
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 mt-1">
-                    <span className="text-[10px] sm:text-xs text-green-400">✓ {comp.strength}</span>
-                    <span className="text-[10px] sm:text-xs text-red-400">✗ {comp.weakness}</span>
+                  <div className="flex gap-4 max-sm:flex-col max-sm:gap-1 mt-1">
+                    <span className="text-xs max-sm:text-[10px] text-green-400">✓ {comp.strength}</span>
+                    <span className="text-xs max-sm:text-[10px] text-red-400">✗ {comp.weakness}</span>
                   </div>
                 </div>
               </div>
@@ -400,10 +562,11 @@ function MarketIntelTab() {
       </motion.div>
 
       <motion.div variants={fadeIn} initial="hidden" animate="visible" custom={0.3}>
-        <GlassCard intensity="light" className="p-5 sm:p-6 space-y-4">
-          <h3 className="text-base sm:text-lg font-semibold text-white">Trending Topics</h3>
+        <GlassCard intensity="light" className="p-6 max-md:p-5 space-y-4">
+          <h3 className="text-lg max-md:text-base font-semibold text-white">Trending Topics</h3>
+          <p className="text-xs text-zinc-500 mb-2">Topics will be tailored to your niche. Example format shown below.</p>
           <div className="flex flex-wrap gap-2">
-            {['AI Personal Training', 'Wearable Tech Coaching', 'Home Gym AI', 'Nutrition AI', 'Recovery Optimization', 'Virtual PT Sessions', 'Fitness App Development', 'AI Body Analysis'].map((topic) => (
+            {['Niche Trend 1', 'Niche Trend 2', 'Niche Trend 3', 'Emerging Topic A', 'Emerging Topic B', 'Growth Area 1', 'Growth Area 2', 'Hot Topic'].map((topic) => (
               <Badge key={topic} variant="violet" size="sm">{topic}</Badge>
             ))}
           </div>
@@ -419,13 +582,14 @@ function MarketIntelTab() {
 
 export default function BlueprintPage() {
   const [activeTab, setActiveTab] = useState('overview');
-  const topNiche = MOCK_NICHES[0];
+  const topNiche = PLACEHOLDER_NICHES[0];
 
   const TAB_CONTENT: Record<string, React.ReactNode> = {
     overview: <OverviewTab />,
     niches: <NicheMatchesTab />,
     funnel: <SalesFunnelTab />,
     products: <ProductsTab />,
+    launch: <LaunchSystemTab />,
     content: <ContentTab />,
     video: <VideoScriptTab />,
     market: <MarketIntelTab />,
@@ -436,8 +600,8 @@ export default function BlueprintPage() {
       {/* Hero */}
       <div className="relative overflow-hidden border-b border-white/5">
         <div className="absolute inset-0 bg-gradient-to-br from-violet-950/30 via-transparent to-purple-950/20" />
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative">
-          <motion.div variants={fadeIn} initial="hidden" animate="visible" className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6">
+        <div className="max-w-6xl mx-auto px-8 max-lg:px-6 max-md:px-4 py-12 max-md:py-8 relative">
+          <motion.div variants={fadeIn} initial="hidden" animate="visible" className="flex items-center justify-between gap-6 max-md:flex-col max-md:items-start max-md:gap-4">
             <div className="space-y-3">
               <div className="flex items-center gap-2 flex-wrap">
                 <Link href="/dashboard">
@@ -445,37 +609,37 @@ export default function BlueprintPage() {
                 </Link>
                 <Badge variant="success" dot>Blueprint Ready</Badge>
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+              <h1 className="text-4xl max-lg:text-3xl max-md:text-2xl font-bold">
                 Your <GradientText>Genius Blueprint</GradientText>
               </h1>
-              <p className="text-sm sm:text-base text-zinc-400">
+              <p className="text-base max-md:text-sm text-zinc-400">
                 Top match: <strong className="text-white">{topNiche.name}</strong> with {topNiche.score}% confidence
               </p>
             </div>
-            <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
-              <Button variant="secondary" size="sm" iconLeft={<Share2 className="w-4 h-4" />} className="min-h-[44px] flex-1 sm:flex-none">Share</Button>
-              <Button variant="secondary" size="sm" iconLeft={<Download className="w-4 h-4" />} className="min-h-[44px] flex-1 sm:flex-none">Export PDF</Button>
+            <div className="flex items-center gap-3 max-md:gap-2 max-md:w-full">
+              <Button variant="secondary" size="sm" iconLeft={<Share2 className="w-4 h-4" />} className="min-h-[44px] max-md:flex-1">Share</Button>
+              <Button variant="secondary" size="sm" iconLeft={<Download className="w-4 h-4" />} className="min-h-[44px] max-md:flex-1">Export PDF</Button>
             </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Tabs - scrollable on mobile */}
+      {/* Tabs - scrollable on small screens */}
       <div className="border-b border-white/5 sticky top-0 z-30 bg-zinc-950/90 backdrop-blur-xl">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-1 overflow-x-auto py-2 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div className="max-w-6xl mx-auto px-8 max-lg:px-6 max-md:px-4">
+          <div className="flex gap-1 overflow-x-auto py-2 scrollbar-none max-md:-mx-4 max-md:px-4">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
-                  'flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all whitespace-nowrap min-h-[44px] flex-shrink-0',
+                  'flex items-center gap-2 max-md:gap-1.5 px-4 max-md:px-3 py-2.5 rounded-xl text-sm max-md:text-xs font-medium transition-all whitespace-nowrap min-h-[44px] flex-shrink-0',
                   activeTab === tab.id
                     ? 'bg-violet-500/15 text-violet-300 border border-violet-500/25'
                     : 'text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.03]',
                 )}
               >
-                <tab.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <tab.icon className="w-4 h-4 max-md:w-3.5 max-md:h-3.5" />
                 {tab.label}
               </button>
             ))}
@@ -483,8 +647,8 @@ export default function BlueprintPage() {
         </div>
       </div>
 
-      {/* Tab Content - full width on mobile */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      {/* Tab Content */}
+      <div className="max-w-6xl mx-auto px-8 max-lg:px-6 max-md:px-4 py-8 max-md:py-6">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}

@@ -660,7 +660,7 @@ For each ladder stage, provide:
 
 ### Stage 4: Profit Maximizer ($497-2000)
 - Premium offering concept
-- Delivery format (group coaching, 1:1, mastermind)
+- Delivery format (group coaching, 1:1, group programs)
 - Application/qualification process
 - Upsell timing and mechanism
 - Expected take rate

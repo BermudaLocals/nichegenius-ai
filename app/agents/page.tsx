@@ -214,7 +214,7 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
           'relative overflow-hidden rounded-2xl',
           'bg-white/[0.03] backdrop-blur-xl',
           'border border-white/[0.06]',
-          'p-5 sm:p-6 h-full',
+          'p-6 max-sm:p-5 h-full',
           'transition-all duration-500',
           'hover:bg-white/[0.06] hover:border-white/[0.12]',
           'hover:shadow-2xl hover:shadow-violet-500/10',
@@ -234,16 +234,16 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
         />
 
         {/* Header: Icon + Status */}
-        <div className="flex items-start justify-between mb-3 sm:mb-4">
+        <div className="flex items-start justify-between mb-4 max-sm:mb-3">
           <div
             className={cn(
-              'w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center',
+              'w-14 h-14 max-sm:w-12 max-sm:h-12 rounded-xl flex items-center justify-center',
               'bg-gradient-to-br',
               agent.gradient,
               'shadow-lg',
             )}
           >
-            <span className="text-xl sm:text-2xl">{agent.emoji}</span>
+            <span className="text-2xl max-sm:text-xl">{agent.emoji}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -254,20 +254,20 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
         </div>
 
         {/* Name + Role */}
-        <h3 className="text-base sm:text-lg font-bold text-white mb-1">
+        <h3 className="text-lg max-sm:text-base font-bold text-white mb-1">
           <GradientText from={`${agent.gradient.split(' ')[0]}`} to={`${agent.gradient.split(' ')[1]}`}>
             {agent.name}
           </GradientText>
         </h3>
-        <p className="text-[11px] sm:text-xs font-medium text-zinc-400 mb-2 sm:mb-3">{agent.role}</p>
+        <p className="text-xs max-sm:text-[11px] font-medium text-zinc-400 mb-3 max-sm:mb-2">{agent.role}</p>
 
         {/* Description */}
-        <p className="text-xs sm:text-[13px] text-zinc-400 leading-relaxed mb-3 sm:mb-4">
+        <p className="text-[13px] max-sm:text-xs text-zinc-400 leading-relaxed mb-4 max-sm:mb-3">
           {agent.description}
         </p>
 
         {/* Capabilities */}
-        <div className="flex flex-wrap gap-1.5 mb-3 sm:mb-4">
+        <div className="flex flex-wrap gap-1.5 mb-4 max-sm:mb-3">
           {agent.capabilities.map((cap) => (
             <span
               key={cap}
@@ -305,13 +305,13 @@ function FlowDiagram() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.7 }}
-      className="mt-16 sm:mt-24 mb-12 sm:mb-16"
+      className="mt-24 max-sm:mt-16 mb-16 max-sm:mb-12"
     >
-      <div className="text-center mb-8 sm:mb-12">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-3">
+      <div className="text-center mb-12 max-sm:mb-8">
+        <h2 className="text-3xl max-md:text-2xl max-sm:text-xl font-bold text-white mb-3">
           All 10 Agents Work <GradientText>Together</GradientText>
         </h2>
-        <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto">
+        <p className="text-base max-sm:text-sm text-zinc-400 max-w-xl mx-auto">
           Connected through our Model Context Protocol, each agent shares insights
           in real-time to deliver results no single AI could achieve.
         </p>
@@ -319,7 +319,7 @@ function FlowDiagram() {
 
       {/* Visual Flow */}
       <div className="relative max-w-4xl mx-auto">
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 sm:gap-4">
+        <div className="grid grid-cols-5 max-md:grid-cols-4 max-sm:grid-cols-3 gap-4 max-sm:gap-3">
           {AGENTS.map((agent, i) => (
             <motion.div
               key={agent.id}
@@ -327,19 +327,19 @@ function FlowDiagram() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05, duration: 0.4 }}
-              className="flex flex-col items-center gap-1.5 sm:gap-2"
+              className="flex flex-col items-center gap-2 max-sm:gap-1.5"
             >
               <div
                 className={cn(
-                  'w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center',
+                  'w-12 h-12 max-sm:w-10 max-sm:h-10 rounded-xl flex items-center justify-center',
                   'bg-gradient-to-br',
                   agent.gradient,
-                  'shadow-lg text-base sm:text-lg',
+                  'shadow-lg text-lg max-sm:text-base',
                 )}
               >
                 {agent.emoji}
               </div>
-              <span className="text-[10px] sm:text-[11px] font-medium text-zinc-300 text-center">
+              <span className="text-[11px] max-sm:text-[10px] font-medium text-zinc-300 text-center">
                 {agent.name}
               </span>
             </motion.div>
@@ -347,7 +347,7 @@ function FlowDiagram() {
         </div>
 
         {/* Center MCP hub */}
-        <div className="mt-6 sm:mt-8 flex justify-center">
+        <div className="mt-8 max-sm:mt-6 flex justify-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -356,10 +356,10 @@ function FlowDiagram() {
             className="relative"
           >
             <div className="absolute inset-0 bg-violet-500/20 rounded-full blur-2xl" />
-            <div className="relative flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-violet-600/20 to-purple-600/20 border border-violet-500/30">
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-violet-400" />
-              <span className="text-xs sm:text-sm font-semibold text-white">Model Context Protocol</span>
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-violet-400" />
+            <div className="relative flex items-center gap-3 max-sm:gap-2 px-6 max-sm:px-4 py-3 max-sm:py-2.5 rounded-full bg-gradient-to-r from-violet-600/20 to-purple-600/20 border border-violet-500/30">
+              <Sparkles className="w-5 h-5 max-sm:w-4 max-sm:h-4 text-violet-400" />
+              <span className="text-sm max-sm:text-xs font-semibold text-white">Model Context Protocol</span>
+              <Sparkles className="w-5 h-5 max-sm:w-4 max-sm:h-4 text-violet-400" />
             </div>
           </motion.div>
         </div>
@@ -380,14 +380,14 @@ export default function AgentsPage() {
     <main className="relative min-h-screen bg-zinc-950 text-white overflow-x-hidden">
       {/* Background effects */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden z-0">
-        <div className="absolute -top-80 left-1/2 -translate-x-1/2 w-[600px] md:w-[1000px] h-[500px] md:h-[700px] rounded-full bg-violet-600/8 blur-[120px] md:blur-[160px]" />
-        <div className="absolute top-[40%] -right-40 md:-right-60 w-[400px] md:w-[600px] h-[400px] md:h-[600px] rounded-full bg-purple-900/10 blur-[100px] md:blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full bg-indigo-900/8 blur-[100px] md:blur-[140px]" />
+        <div className="absolute -top-80 left-1/2 -translate-x-1/2 w-[1000px] max-md:w-[600px] h-[700px] max-md:h-[500px] rounded-full bg-violet-600/8 blur-[160px] max-md:blur-[120px]" />
+        <div className="absolute top-[40%] -right-60 max-md:-right-40 w-[600px] max-md:w-[400px] h-[600px] max-md:h-[400px] rounded-full bg-purple-900/10 blur-[120px] max-md:blur-[100px]" />
+        <div className="absolute bottom-0 left-0 w-[500px] max-md:w-[300px] h-[500px] max-md:h-[300px] rounded-full bg-indigo-900/8 blur-[140px] max-md:blur-[100px]" />
       </div>
 
       <div className="relative z-10">
         {/* Nav */}
-        <nav className="flex items-center justify-between px-4 sm:px-6 py-4 max-w-7xl mx-auto">
+        <nav className="flex items-center justify-between px-6 max-sm:px-4 py-4 max-w-7xl mx-auto">
           <Link href="/" className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors min-h-[44px]">
             <ChevronLeft className="w-4 h-4" />
             <span className="text-sm">Back to Home</span>
@@ -401,39 +401,39 @@ export default function AgentsPage() {
         </nav>
 
         {/* Hero */}
-        <section className="pt-8 sm:pt-16 pb-8 sm:pb-12 px-4 sm:px-6 text-center max-w-4xl mx-auto">
+        <section className="pt-16 max-sm:pt-8 pb-12 max-sm:pb-8 px-6 max-sm:px-4 text-center max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-4 sm:mb-6">
-              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-400" />
-              <span className="text-xs sm:text-sm font-medium text-violet-300">10 Specialized AI Agents</span>
+            <div className="inline-flex items-center gap-2 px-4 max-sm:px-3 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-6 max-sm:mb-4">
+              <Sparkles className="w-4 h-4 max-sm:w-3.5 max-sm:h-3.5 text-violet-400" />
+              <span className="text-sm max-sm:text-xs font-medium text-violet-300">10 Specialized AI Agents</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-4 sm:mb-6 leading-tight">
+            <h1 className="text-6xl max-md:text-4xl max-sm:text-3xl font-extrabold mb-6 max-sm:mb-4 leading-tight">
               Meet Your{' '}
               <GradientText from="from-violet-400" via="via-purple-400" to="to-pink-400" animate>
                 AI Team
               </GradientText>
             </h1>
 
-            <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl max-md:text-lg max-sm:text-base text-zinc-400 max-w-2xl mx-auto leading-relaxed">
               10 specialized AI agents working 24/7 to discover your perfect niche,
               build your strategy, and launch your online empire.
             </p>
           </motion.div>
         </section>
 
-        {/* Agent Cards Grid — 1-col mobile, 2-col tablet, 3-col desktop */}
-        <section className="px-4 sm:px-6 max-w-7xl mx-auto">
+        {/* Agent Cards Grid — 3-col desktop, 2-col tablet, 1-col mobile */}
+        <section className="px-6 max-sm:px-4 max-w-7xl mx-auto">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-50px' }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+            className="grid grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1 gap-6 max-sm:gap-4"
           >
             {AGENTS.map((agent, i) => (
               <AgentCard key={agent.id} agent={agent} index={i} />
@@ -442,12 +442,12 @@ export default function AgentsPage() {
         </section>
 
         {/* Flow Diagram */}
-        <section className="px-4 sm:px-6 max-w-7xl mx-auto">
+        <section className="px-6 max-sm:px-4 max-w-7xl mx-auto">
           <FlowDiagram />
         </section>
 
         {/* CTA */}
-        <section className="px-4 sm:px-6 pb-16 sm:pb-24">
+        <section className="px-6 max-sm:px-4 pb-24 max-sm:pb-16">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -455,21 +455,21 @@ export default function AgentsPage() {
             transition={{ duration: 0.6 }}
             className="max-w-3xl mx-auto text-center"
           >
-            <div className="relative p-6 sm:p-8 md:p-12 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-violet-600/10 via-purple-600/5 to-transparent border border-violet-500/20 overflow-hidden">
+            <div className="relative p-12 max-md:p-8 max-sm:p-6 rounded-3xl max-sm:rounded-2xl bg-gradient-to-br from-violet-600/10 via-purple-600/5 to-transparent border border-violet-500/20 overflow-hidden">
               {/* Glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-violet-600/5 to-transparent pointer-events-none" />
 
               <div className="relative z-10">
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-4">
+                <h2 className="text-3xl max-md:text-2xl max-sm:text-xl font-bold text-white mb-4">
                   Put All 10 Agents to Work for{' '}
                   <GradientText>You</GradientText>
                 </h2>
-                <p className="text-sm sm:text-base text-zinc-400 mb-6 sm:mb-8 max-w-lg mx-auto">
+                <p className="text-base max-sm:text-sm text-zinc-400 mb-8 max-sm:mb-6 max-w-lg mx-auto">
                   Start your free assessment and let our AGI engine analyze your
                   personality, skills, and market data to find your perfect niche.
                 </p>
                 <Link href="/assessment">
-                  <Button size="xl" glow className="min-h-[52px] w-full sm:w-auto">
+                  <Button size="xl" glow className="min-h-[52px] w-auto max-sm:w-full">
                     Start Free Assessment
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>

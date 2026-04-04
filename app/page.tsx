@@ -57,19 +57,19 @@ function FloatingOrbs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <motion.div
-        className="absolute w-[300px] md:w-[600px] h-[300px] md:h-[600px] rounded-full bg-violet-600/10 blur-[80px] md:blur-[120px]"
+        className="absolute w-[600px] max-md:w-[300px] h-[600px] max-md:h-[300px] rounded-full bg-violet-600/10 blur-[120px] max-md:blur-[80px]"
         animate={{ x: [0, 50, -30, 0], y: [0, -40, 30, 0] }}
         transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
         style={{ top: '-10%', left: '-5%' }}
       />
       <motion.div
-        className="absolute w-[250px] md:w-[500px] h-[250px] md:h-[500px] rounded-full bg-purple-600/8 blur-[60px] md:blur-[100px]"
+        className="absolute w-[500px] max-md:w-[250px] h-[500px] max-md:h-[250px] rounded-full bg-purple-600/8 blur-[100px] max-md:blur-[60px]"
         animate={{ x: [0, -40, 60, 0], y: [0, 50, -20, 0] }}
         transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
         style={{ top: '30%', right: '-10%' }}
       />
       <motion.div
-        className="absolute w-[200px] md:w-[400px] h-[200px] md:h-[400px] rounded-full bg-indigo-600/6 blur-[60px] md:blur-[80px]"
+        className="absolute w-[400px] max-md:w-[200px] h-[400px] max-md:h-[200px] rounded-full bg-indigo-600/6 blur-[80px] max-md:blur-[60px]"
         animate={{ x: [0, 30, -50, 0], y: [0, -30, 40, 0] }}
         transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
         style={{ bottom: '10%', left: '20%' }}
@@ -94,7 +94,7 @@ function MobileNav() {
     <>
       {/* Top Navigation Bar */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-8 max-lg:px-6 max-md:px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
@@ -105,7 +105,7 @@ function MobileNav() {
             </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-6">
+            <div className="flex items-center gap-6 max-md:hidden">
               {navLinks.map((link) => (
                 <Link key={link.label} href={link.href} className="text-sm text-zinc-400 hover:text-white transition-colors">
                   {link.label}
@@ -119,7 +119,7 @@ function MobileNav() {
             {/* Hamburger Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden w-11 h-11 flex items-center justify-center rounded-xl hover:bg-white/5 transition-colors"
+              className="hidden max-md:flex w-11 h-11 items-center justify-center rounded-xl hover:bg-white/5 transition-colors"
               aria-label="Toggle menu"
             >
               {isOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6 text-white" />}
@@ -136,7 +136,7 @@ function MobileNav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 top-16 z-50 bg-zinc-950/95 backdrop-blur-xl border-b border-white/5 md:hidden"
+            className="fixed inset-x-0 top-16 z-50 bg-zinc-950/95 backdrop-blur-xl border-b border-white/5 hidden max-md:block"
           >
             <div className="px-4 py-6 space-y-2">
               {navLinks.map((link) => (
@@ -174,8 +174,8 @@ function Section({
   id?: string;
 }) {
   return (
-    <section id={id} className={`relative py-16 md:py-24 lg:py-32 ${className}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
+    <section id={id} className={`relative py-32 max-lg:py-24 max-md:py-16 ${className}`}>
+      <div className="max-w-7xl mx-auto px-8 max-lg:px-6 max-md:px-4">{children}</div>
     </section>
   );
 }
@@ -197,10 +197,10 @@ function HeroSection() {
       {/* Grid pattern */}
       <div className="absolute inset-0 bg-[url('/images/grid.svg')] bg-center opacity-[0.02]" />
 
-      <motion.div style={{ y, opacity }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32 relative z-10 w-full">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+      <motion.div style={{ y, opacity }} className="max-w-7xl mx-auto px-8 max-lg:px-6 max-md:px-4 py-32 max-lg:py-24 max-md:py-16 relative z-10 w-full">
+        <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-16 max-lg:gap-8 items-center">
           {/* Left: Copy */}
-          <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
+          <div className="space-y-8 max-sm:space-y-6 text-left max-lg:text-center">
             <motion.div variants={fadeIn} initial="hidden" animate="visible" custom={0.1}>
               <Badge variant="violet" dot>
                 The World&apos;s First AGI-Powered Niche Discovery
@@ -212,13 +212,13 @@ function HeroSection() {
               initial="hidden"
               animate="visible"
               custom={0.2}
-              className="text-3xl sm:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight"
+              className="text-7xl max-lg:text-5xl max-md:text-3xl font-bold leading-[1.1] tracking-tight"
             >
               Your genius niche is{' '}
               <GradientText from="from-violet-400" via="via-purple-400" to="to-fuchsia-400">
                 hidden in your DNA.
               </GradientText>{' '}
-              <br className="hidden sm:block" />
+              <br className="block max-sm:hidden" />
               Our AGI finds it.
             </motion.h1>
 
@@ -227,7 +227,7 @@ function HeroSection() {
               initial="hidden"
               animate="visible"
               custom={0.4}
-              className="text-base sm:text-lg text-zinc-400 max-w-xl leading-relaxed mx-auto lg:mx-0"
+              className="text-lg max-sm:text-base text-zinc-400 max-w-xl leading-relaxed mx-0 max-lg:mx-auto"
             >
               Answer 155 questions. Our multi-model AGI engine analyzes your personality,
               skills, and market data across 2.4 million data points to reveal the perfect
@@ -239,15 +239,15 @@ function HeroSection() {
               initial="hidden"
               animate="visible"
               custom={0.5}
-              className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start"
+              className="flex flex-row max-sm:flex-col flex-wrap gap-4 max-sm:gap-3 justify-start max-lg:justify-center"
             >
-              <Link href="/assessment" className="w-full sm:w-auto">
-                <Button size="xl" glow iconRight={<ArrowRight className="w-5 h-5" />} fullWidth className="sm:w-auto min-h-[48px]">
+              <Link href="/assessment" className="w-auto max-sm:w-full">
+                <Button size="xl" glow iconRight={<ArrowRight className="w-5 h-5" />} fullWidth className="w-auto max-sm:w-full min-h-[48px]">
                   Discover Your Genius Niche
                 </Button>
               </Link>
-              <Link href="#how-it-works" className="w-full sm:w-auto">
-                <Button size="xl" variant="secondary" fullWidth className="sm:w-auto min-h-[48px]">
+              <Link href="#how-it-works" className="w-auto max-sm:w-full">
+                <Button size="xl" variant="secondary" fullWidth className="w-auto max-sm:w-full min-h-[48px]">
                   See How It Works
                 </Button>
               </Link>
@@ -259,7 +259,7 @@ function HeroSection() {
               initial="hidden"
               animate="visible"
               custom={0.7}
-              className="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 sm:gap-6 pt-4 justify-center lg:justify-start"
+              className="flex flex-wrap max-sm:grid max-sm:grid-cols-2 gap-6 max-sm:gap-4 pt-4 justify-start max-lg:justify-center"
             >
               {[
                 { value: 155, label: 'Questions', suffix: '' },
@@ -267,15 +267,15 @@ function HeroSection() {
                 { value: 500, label: 'Niches', suffix: '+' },
                 { value: 97.3, label: 'Match Accuracy', suffix: '%', format: 'decimal' as const, decimals: 1 },
               ].map((stat) => (
-                <div key={stat.label} className="flex items-baseline gap-1.5 justify-center lg:justify-start">
+                <div key={stat.label} className="flex items-baseline gap-1.5 justify-start max-lg:justify-center">
                   <AnimatedCounter
                     value={stat.value}
                     suffix={stat.suffix}
                     format={stat.format || 'number'}
                     decimals={stat.decimals || 0}
-                    className="text-lg sm:text-xl font-bold text-white"
+                    className="text-xl max-sm:text-lg font-bold text-white"
                   />
-                  <span className="text-[10px] sm:text-xs text-zinc-500 uppercase tracking-wider">{stat.label}</span>
+                  <span className="text-xs max-sm:text-[10px] text-zinc-500 uppercase tracking-wider">{stat.label}</span>
                 </div>
               ))}
             </motion.div>
@@ -287,7 +287,7 @@ function HeroSection() {
             initial="hidden"
             animate="visible"
             custom={0.6}
-            className="hidden lg:block"
+            className="block max-lg:hidden"
           >
             <div className="relative">
               {/* Glow behind card */}
@@ -368,14 +368,14 @@ function PoweredBySection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="text-center space-y-4 mb-10 md:mb-16"
+        className="text-center space-y-4 mb-16 max-md:mb-10"
       >
         <p className="text-sm text-violet-400 uppercase tracking-widest font-medium">Multi-Model Intelligence</p>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+        <h2 className="text-4xl max-md:text-3xl max-sm:text-2xl font-bold text-white">
           Powered by the world&apos;s most{' '}
           <GradientText>advanced AI</GradientText>
         </h2>
-        <p className="text-sm sm:text-base text-zinc-400 max-w-2xl mx-auto">
+        <p className="text-base max-sm:text-sm text-zinc-400 max-w-2xl mx-auto">
           Our AGI engine routes each analysis to the optimal model — creative tasks to GPT-4o,
           research to Claude, fast scoring to Gemma — for superhuman accuracy.
         </p>
@@ -386,16 +386,16 @@ function PoweredBySection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4"
+        className="grid grid-cols-5 max-lg:grid-cols-3 max-md:grid-cols-2 gap-4 max-sm:gap-3"
       >
         {models.map((model, i) => (
           <motion.div key={model.name} variants={fadeInUp} custom={i * 0.1}>
-            <GlassCard intensity="light" className="p-4 sm:p-6 text-center space-y-2 sm:space-y-3 h-full">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto rounded-xl bg-violet-500/10 flex items-center justify-center">
-                <model.icon className="w-5 h-5 sm:w-6 sm:h-6 text-violet-400" />
+            <GlassCard intensity="light" className="p-6 max-sm:p-4 text-center space-y-3 max-sm:space-y-2 h-full">
+              <div className="w-12 h-12 max-sm:w-10 max-sm:h-10 mx-auto rounded-xl bg-violet-500/10 flex items-center justify-center">
+                <model.icon className="w-6 h-6 max-sm:w-5 max-sm:h-5 text-violet-400" />
               </div>
-              <p className="font-semibold text-white text-xs sm:text-sm">{model.name}</p>
-              <p className="text-[10px] sm:text-xs text-zinc-500">{model.desc}</p>
+              <p className="font-semibold text-white text-sm max-sm:text-xs">{model.name}</p>
+              <p className="text-xs max-sm:text-[10px] text-zinc-500">{model.desc}</p>
             </GlassCard>
           </motion.div>
         ))}
@@ -451,16 +451,16 @@ function HowItWorksSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="text-center space-y-4 mb-12 md:mb-20"
+        className="text-center space-y-4 mb-20 max-md:mb-12"
       >
         <Badge variant="violet">How It Works</Badge>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+        <h2 className="text-4xl max-md:text-3xl max-sm:text-2xl font-bold text-white">
           From personality quiz to{' '}
           <GradientText>profitable niche</GradientText> in 30 minutes
         </h2>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+      <div className="grid grid-cols-4 max-lg:grid-cols-2 max-md:grid-cols-1 gap-8 max-lg:gap-6 max-md:gap-4">
         {steps.map((step, i) => (
           <motion.div
             key={step.num}
@@ -470,22 +470,22 @@ function HowItWorksSection() {
             viewport={{ once: true }}
             custom={i * 0.15}
           >
-            <GlassCard intensity="light" className="p-5 sm:p-6 h-full space-y-4 relative overflow-hidden group">
+            <GlassCard intensity="light" className="p-6 max-sm:p-5 h-full space-y-4 relative overflow-hidden group">
               {/* Step number bg */}
-              <div className="absolute -top-4 -right-4 text-[80px] sm:text-[120px] font-black text-white/[0.02] leading-none select-none group-hover:text-white/[0.04] transition-colors">
+              <div className="absolute -top-4 -right-4 text-[120px] max-sm:text-[80px] font-black text-white/[0.02] leading-none select-none group-hover:text-white/[0.04] transition-colors">
                 {step.num}
               </div>
 
-              <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-lg`}>
-                <step.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              <div className={`w-12 h-12 max-sm:w-10 max-sm:h-10 rounded-xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-lg`}>
+                <step.icon className="w-6 h-6 max-sm:w-5 max-sm:h-5 text-white" />
               </div>
 
               <div>
                 <span className="text-xs text-violet-400 font-mono">Step {step.num}</span>
-                <h3 className="text-base sm:text-lg font-bold text-white mt-1">{step.title}</h3>
+                <h3 className="text-lg max-sm:text-base font-bold text-white mt-1">{step.title}</h3>
               </div>
 
-              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">{step.desc}</p>
+              <p className="text-sm max-sm:text-xs text-zinc-400 leading-relaxed">{step.desc}</p>
 
               <div className="pt-2">
                 <Badge variant="default" size="sm">{step.detail}</Badge>
@@ -521,10 +521,10 @@ function WhatYouGetSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="text-center space-y-4 mb-10 md:mb-16"
+        className="text-center space-y-4 mb-16 max-md:mb-10"
       >
         <Badge variant="violet">Your Blueprint Includes</Badge>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+        <h2 className="text-4xl max-md:text-3xl max-sm:text-2xl font-bold text-white">
           Everything you need to{' '}
           <GradientText>launch with confidence</GradientText>
         </h2>
@@ -535,11 +535,11 @@ function WhatYouGetSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
+        className="grid grid-cols-4 max-lg:grid-cols-2 max-md:grid-cols-1 gap-6 max-sm:gap-4"
       >
         {deliverables.map((item, i) => (
           <motion.div key={item.title} variants={fadeInUp} custom={i * 0.08}>
-            <GlassCard intensity="light" className="p-5 sm:p-6 h-full space-y-3 group">
+            <GlassCard intensity="light" className="p-6 max-sm:p-5 h-full space-y-3 group">
               <div className="w-10 h-10 rounded-lg bg-violet-500/10 flex items-center justify-center group-hover:bg-violet-500/20 transition-colors">
                 <item.icon className="w-5 h-5 text-violet-400" />
               </div>
@@ -598,20 +598,20 @@ function AIFeaturesSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="text-center space-y-4 mb-10 md:mb-16"
+        className="text-center space-y-4 mb-16 max-md:mb-10"
       >
         <Badge variant="violet">Technology</Badge>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+        <h2 className="text-4xl max-md:text-3xl max-sm:text-2xl font-bold text-white">
           Built with{' '}
           <GradientText>cutting-edge AI</GradientText>
         </h2>
-        <p className="text-sm sm:text-base text-zinc-400 max-w-2xl mx-auto">
+        <p className="text-base max-sm:text-sm text-zinc-400 max-w-2xl mx-auto">
           Under the hood, NicheGenius AI orchestrates multiple AI models, vector databases,
           and MCP servers to deliver intelligence no single model can match.
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      <div className="grid grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1 gap-6 max-sm:gap-4">
         {features.map((feature, i) => (
           <motion.div
             key={feature.title}
@@ -621,15 +621,15 @@ function AIFeaturesSection() {
             viewport={{ once: true }}
             custom={i * 0.1}
           >
-            <GlassCard intensity="medium" className="p-5 sm:p-6 h-full space-y-4">
+            <GlassCard intensity="medium" className="p-6 max-sm:p-5 h-full space-y-4">
               <div className="flex items-start justify-between">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/10 flex items-center justify-center">
-                  <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 text-violet-400" />
+                <div className="w-12 h-12 max-sm:w-10 max-sm:h-10 rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/10 flex items-center justify-center">
+                  <feature.icon className="w-6 h-6 max-sm:w-5 max-sm:h-5 text-violet-400" />
                 </div>
                 <Badge variant="violet" size="sm">{feature.badge}</Badge>
               </div>
-              <h3 className="text-base sm:text-lg font-semibold text-white">{feature.title}</h3>
-              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">{feature.desc}</p>
+              <h3 className="text-lg max-sm:text-base font-semibold text-white">{feature.title}</h3>
+              <p className="text-sm max-sm:text-xs text-zinc-400 leading-relaxed">{feature.desc}</p>
             </GlassCard>
           </motion.div>
         ))}
@@ -673,16 +673,16 @@ function WhoIsForSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="text-center space-y-4 mb-10 md:mb-16"
+        className="text-center space-y-4 mb-16 max-md:mb-10"
       >
         <Badge variant="violet">Who This Is For</Badge>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+        <h2 className="text-4xl max-md:text-3xl max-sm:text-2xl font-bold text-white">
           Built for people who are{' '}
           <GradientText>ready to start</GradientText>
         </h2>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-4 max-lg:grid-cols-2 max-md:grid-cols-1 gap-6 max-sm:gap-4">
         {personas.map((persona, i) => (
           <motion.div
             key={persona.title}
@@ -692,12 +692,12 @@ function WhoIsForSection() {
             viewport={{ once: true }}
             custom={i * 0.1}
           >
-            <GlassCard intensity="light" className="p-5 sm:p-6 h-full space-y-4">
+            <GlassCard intensity="light" className="p-6 max-sm:p-5 h-full space-y-4">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
                 <Users className="w-5 h-5 text-white" />
               </div>
-              <h3 className="font-bold text-white text-sm sm:text-base">{persona.title}</h3>
-              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">{persona.desc}</p>
+              <h3 className="font-bold text-white text-base max-sm:text-sm">{persona.title}</h3>
+              <p className="text-sm max-sm:text-xs text-zinc-400 leading-relaxed">{persona.desc}</p>
               <div className="flex flex-wrap gap-2 pt-2">
                 {persona.traits.map((trait) => (
                   <Badge key={trait} variant="default" size="sm">{trait}</Badge>
@@ -781,19 +781,19 @@ function PricingSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="text-center space-y-4 mb-10 md:mb-16"
+        className="text-center space-y-4 mb-16 max-md:mb-10"
       >
         <Badge variant="violet">Pricing</Badge>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+        <h2 className="text-4xl max-md:text-3xl max-sm:text-2xl font-bold text-white">
           Invest in your{' '}
           <GradientText>perfect niche</GradientText>
         </h2>
-        <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto">
+        <p className="text-base max-sm:text-sm text-zinc-400 max-w-xl mx-auto">
           One-time payment. No subscriptions. Your blueprint is yours forever.
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
+      <div className="grid grid-cols-3 max-md:grid-cols-1 gap-8 max-sm:gap-6 max-w-5xl mx-auto">
         {plans.map((plan, i) => (
           <motion.div
             key={plan.name}
@@ -814,27 +814,27 @@ function PricingSection() {
             <GlassCard
               intensity={plan.popular ? 'strong' : 'light'}
               glow={plan.popular ? 'violet' : 'none'}
-              className={`p-6 sm:p-8 h-full flex flex-col ${plan.popular ? 'ring-1 ring-violet-500/30' : ''}`}
+              className={`p-8 max-sm:p-6 h-full flex flex-col ${plan.popular ? 'ring-1 ring-violet-500/30' : ''}`}
             >
               <div className="space-y-4 mb-6">
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${plan.popular ? 'bg-violet-500/20' : 'bg-white/5'}`}>
                     <plan.icon className={`w-5 h-5 ${plan.popular ? 'text-violet-400' : 'text-zinc-400'}`} />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white">{plan.name}</h3>
+                  <h3 className="text-xl max-sm:text-lg font-bold text-white">{plan.name}</h3>
                 </div>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-3xl sm:text-4xl font-bold text-white">{plan.price}</span>
+                  <span className="text-4xl max-sm:text-3xl font-bold text-white">{plan.price}</span>
                   <span className="text-sm text-zinc-500">/{plan.period}</span>
                 </div>
-                <p className="text-xs sm:text-sm text-zinc-400">{plan.desc}</p>
+                <p className="text-sm max-sm:text-xs text-zinc-400">{plan.desc}</p>
               </div>
 
               <ul className="space-y-3 flex-1 mb-8">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-violet-400 mt-0.5 flex-shrink-0" />
-                    <span className="text-xs sm:text-sm text-zinc-300">{feature}</span>
+                    <span className="text-sm max-sm:text-xs text-zinc-300">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -874,39 +874,39 @@ function FinalCTASection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="relative text-center space-y-6 sm:space-y-8 max-w-3xl mx-auto"
+        className="relative text-center space-y-8 max-sm:space-y-6 max-w-3xl mx-auto"
       >
-        <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-2xl shadow-violet-500/20">
-          <Sparkles className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+        <div className="w-20 h-20 max-sm:w-16 max-sm:h-16 mx-auto rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-2xl shadow-violet-500/20">
+          <Sparkles className="w-10 h-10 max-sm:w-8 max-sm:h-8 text-white" />
         </div>
 
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
+        <h2 className="text-5xl max-md:text-4xl max-sm:text-3xl font-bold text-white leading-tight">
           Your niche genius is{' '}
           <GradientText from="from-violet-400" via="via-purple-400" to="to-fuchsia-400">
             waiting.
           </GradientText>
         </h2>
 
-        <p className="text-base sm:text-lg text-zinc-400 max-w-xl mx-auto">
+        <p className="text-lg max-sm:text-base text-zinc-400 max-w-xl mx-auto">
           Stop guessing. Stop scrolling. Stop watching others build the business you could have.
           Take 30 minutes. Discover your genius niche. Start building your empire today.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-          <Link href="/assessment" className="w-full sm:w-auto">
-            <Button size="xl" glow iconRight={<ArrowRight className="w-5 h-5" />} fullWidth className="sm:w-auto min-h-[48px]">
+        <div className="flex flex-row max-sm:flex-col gap-4 justify-center pt-4">
+          <Link href="/assessment" className="w-auto max-sm:w-full">
+            <Button size="xl" glow iconRight={<ArrowRight className="w-5 h-5" />} fullWidth className="w-auto max-sm:w-full min-h-[48px]">
               Discover Your Genius Niche
             </Button>
           </Link>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 sm:gap-8 pt-4">
+        <div className="flex flex-wrap justify-center gap-8 max-sm:gap-4 pt-4">
           {[
             { icon: Shield, text: 'Money-Back Guarantee' },
             { icon: Zap, text: 'Instant Results' },
             { icon: Star, text: '97.3% Accuracy' },
           ].map((item) => (
-            <div key={item.text} className="flex items-center gap-2 text-xs sm:text-sm text-zinc-500">
+            <div key={item.text} className="flex items-center gap-2 text-sm max-sm:text-xs text-zinc-500">
               <item.icon className="w-4 h-4" />
               {item.text}
             </div>
@@ -933,7 +933,7 @@ function MeetAriaSection() {
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
           variants={staggerContainer}
-          className="text-center mb-10 sm:mb-14"
+          className="text-center mb-14 max-sm:mb-10"
         >
           <motion.div variants={fadeInUp} custom={0}>
             <Badge variant="outline" className="mb-4 border-violet-500/30 text-violet-300">
@@ -944,7 +944,7 @@ function MeetAriaSection() {
           <motion.h2
             variants={fadeInUp}
             custom={0.1}
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4"
+            className="text-5xl max-lg:text-4xl max-sm:text-3xl font-bold mb-4"
           >
             Meet{' '}
             <GradientText>Aria</GradientText>
@@ -953,7 +953,7 @@ function MeetAriaSection() {
           <motion.p
             variants={fadeInUp}
             custom={0.2}
-            className="text-zinc-400 max-w-2xl mx-auto text-base sm:text-lg"
+            className="text-zinc-400 max-w-2xl mx-auto text-lg max-sm:text-base"
           >
             Talk face-to-face with our AGI-powered avatar. Aria combines 10 specialist
             agents, 3 AI models, and 2.4M data points to guide you to your perfect niche.
@@ -969,7 +969,7 @@ function MeetAriaSection() {
           custom={0.3}
           className="relative mx-auto max-w-lg"
         >
-          <div className="relative rounded-3xl border border-white/[0.08] bg-black/60 backdrop-blur-xl overflow-hidden p-8 sm:p-10">
+          <div className="relative rounded-3xl border border-white/[0.08] bg-black/60 backdrop-blur-xl overflow-hidden p-10 max-sm:p-8">
             {/* Glow effects */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-violet-600/15 blur-[80px]" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180px] h-[180px] rounded-full bg-purple-500/20 blur-[50px]" />
@@ -1057,9 +1057,9 @@ function MeetAriaSection() {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/5 py-12 sm:py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12">
+    <footer className="border-t border-white/5 py-16 max-sm:py-12">
+      <div className="max-w-7xl mx-auto px-8 max-lg:px-6 max-md:px-4">
+        <div className="grid grid-cols-4 max-md:grid-cols-2 gap-12 max-sm:gap-8">
           {/* Brand */}
           <div className="col-span-2 space-y-4">
             <div className="flex items-center gap-2">
@@ -1068,7 +1068,7 @@ function Footer() {
               </div>
               <span className="text-lg font-bold text-white">NicheGenius AI</span>
             </div>
-            <p className="text-xs sm:text-sm text-zinc-500 max-w-xs">
+            <p className="text-sm max-sm:text-xs text-zinc-500 max-w-xs">
               The world&apos;s first AGI-powered niche discovery platform. Find your genius niche
               with multi-model AI analysis.
             </p>
@@ -1085,7 +1085,7 @@ function Footer() {
                 { label: 'How It Works', href: '#how-it-works' },
               ].map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-xs sm:text-sm text-zinc-500 hover:text-violet-400 transition-colors min-h-[44px] flex items-center">
+                  <Link href={link.href} className="text-sm max-sm:text-xs text-zinc-500 hover:text-violet-400 transition-colors min-h-[44px] flex items-center">
                     {link.label}
                   </Link>
                 </li>
@@ -1104,7 +1104,7 @@ function Footer() {
                 { label: 'Terms of Service', href: '/terms' },
               ].map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-xs sm:text-sm text-zinc-500 hover:text-violet-400 transition-colors min-h-[44px] flex items-center">
+                  <Link href={link.href} className="text-sm max-sm:text-xs text-zinc-500 hover:text-violet-400 transition-colors min-h-[44px] flex items-center">
                     {link.label}
                   </Link>
                 </li>
@@ -1113,7 +1113,7 @@ function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/5 mt-8 sm:mt-12 pt-6 sm:pt-8 text-center">
+        <div className="border-t border-white/5 mt-12 max-sm:mt-8 pt-8 max-sm:pt-6 text-center">
           <p className="text-xs text-zinc-600">
             © 2026 NicheGenius AI. All rights reserved. Built with AGI-powered intelligence.
           </p>

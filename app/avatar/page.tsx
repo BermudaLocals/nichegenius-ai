@@ -104,7 +104,7 @@ export default function AvatarPage() {
       </div>
 
       {/* Top nav */}
-      <nav className="relative z-20 flex items-center justify-between px-4 sm:px-8 py-4">
+      <nav className="relative z-20 flex items-center justify-between px-8 max-sm:px-4 py-4">
         <Link href="/" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
             <span className="text-white font-black text-sm">N</span>
@@ -122,7 +122,7 @@ export default function AvatarPage() {
       </nav>
 
       {/* Main content - split layout */}
-      <div className="relative z-10 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-8 lg:gap-16 px-4 sm:px-8 pt-4 pb-20 max-w-7xl mx-auto">
+      <div className="relative z-10 flex flex-row max-lg:flex-col items-start max-lg:items-center justify-center gap-16 max-lg:gap-8 px-8 max-sm:px-4 pt-4 pb-20 max-w-7xl mx-auto">
 
         {/* Left side - Avatar */}
         <div className="flex flex-col items-center flex-shrink-0">
@@ -143,7 +143,7 @@ export default function AvatarPage() {
                   exit={{ scale: 0.8, opacity: 0 }}
                 >
                   <p className="text-xs font-bold tracking-[0.3em] uppercase text-violet-400 mb-3">Meet Your AI Advisor</p>
-                  <h1 className="text-5xl sm:text-6xl font-black text-white mb-2">Aria</h1>
+                  <h1 className="text-6xl max-sm:text-5xl font-black text-white mb-2">Aria</h1>
                   <p className="text-zinc-500 text-sm">Powered by GPT-4o • Gemma 2 • Claude</p>
                 </motion.div>
               </motion.div>
@@ -185,7 +185,7 @@ export default function AvatarPage() {
 
         {/* Right side - Chat */}
         <motion.div
-          className="w-full lg:w-[28rem] xl:w-[32rem] flex flex-col"
+          className="w-[32rem] max-xl:w-[28rem] max-lg:w-full flex flex-col"
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}

@@ -13,7 +13,7 @@ type Avatar = { id: string; name: string; preview: string };
 type VideoStatus = 'idle' | 'selecting' | 'generating' | 'processing' | 'complete' | 'error';
 
 const MOCK_AVATARS: Avatar[] = [
-  { id: 'av_001', name: 'Sarah — Professional Coach', preview: '/avatars/sarah.png' },
+  { id: 'av_001', name: 'Professional Presenter', preview: '/avatars/aria-portrait.png' },
   { id: 'av_002', name: 'Marcus — Tech Expert', preview: '/avatars/marcus.png' },
   { id: 'av_003', name: 'Elena — Lifestyle Host', preview: '/avatars/elena.png' },
   { id: 'av_004', name: 'James — Business Mentor', preview: '/avatars/james.png' },
