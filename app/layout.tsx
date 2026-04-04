@@ -48,7 +48,6 @@ export const metadata: Metadata = {
     description:
       'The world\'s first AGI-powered niche discovery platform.',
   },
-  // ── Anti-Clone: Prevent indexing, caching, archiving ────────────────────
   robots: {
     index: false,
     follow: false,
@@ -57,7 +56,6 @@ export const metadata: Metadata = {
     noimageindex: true,
     nocache: true,
   },
-  // Prevent Google from showing cached versions
   other: {
     'googlebot': 'noindex, nofollow, noarchive, nosnippet, noimageindex',
     'google': 'nositelinkssearchbox, notranslate',
@@ -69,6 +67,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
+  userScalable: true,
 };
 
 export default function RootLayout({
@@ -79,7 +78,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
-        {/* ── Anti-Clone Meta Tags ──────────────────────────────────────── */}
+        {/* Mobile-first viewport & compatibility */}
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        {/* Anti-Clone Meta Tags */}
         <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
         <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
         <meta name="google" content="nositelinkssearchbox, notranslate" />
@@ -88,35 +92,26 @@ export default function RootLayout({
         <meta httpEquiv="Expires" content="0" />
       </head>
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-[#09090B] text-white min-h-screen`}
+        className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-[#09090B] text-white min-h-screen overflow-x-hidden`}
       >
         {/*
           ═══════════════════════════════════════════════════════════════
           DMCA NOTICE — NicheGenius AI
           © 2024-2026 NicheGenius AI. All rights reserved.
-
-          This software is proprietary and confidential. Unauthorized
-          copying, modification, distribution, or use of this software,
-          via any medium, is strictly prohibited.
-
-          Protected under the Digital Millennium Copyright Act (DMCA).
-          Violations will be prosecuted to the fullest extent of the law.
-
-          For licensing inquiries: legal@nichegenius.ai
           ═══════════════════════════════════════════════════════════════
         */}
 
         {/* Background mesh gradient */}
         <div className="pointer-events-none fixed inset-0 overflow-hidden z-0">
-          <div className="absolute -top-80 left-1/2 -translate-x-1/2 w-[1000px] h-[700px] rounded-full bg-violet-600/8 blur-[160px]" />
-          <div className="absolute top-[60%] -right-60 w-[600px] h-[600px] rounded-full bg-purple-900/10 blur-[120px]" />
-          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-indigo-900/8 blur-[140px]" />
+          <div className="absolute -top-80 left-1/2 -translate-x-1/2 w-[600px] md:w-[1000px] h-[500px] md:h-[700px] rounded-full bg-violet-600/8 blur-[120px] md:blur-[160px]" />
+          <div className="absolute top-[60%] -right-40 md:-right-60 w-[400px] md:w-[600px] h-[400px] md:h-[600px] rounded-full bg-purple-900/10 blur-[100px] md:blur-[120px]" />
+          <div className="absolute bottom-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full bg-indigo-900/8 blur-[100px] md:blur-[140px]" />
         </div>
 
         {/* Anti-Clone Shield wraps the entire application */}
         <AntiCloneShield>
           <div className="relative z-10">{children}</div>
-        <FAQAssistant />
+          <FAQAssistant />
         </AntiCloneShield>
       </body>
     </html>

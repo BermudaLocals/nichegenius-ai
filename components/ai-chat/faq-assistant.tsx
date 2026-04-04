@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Sparkles } from 'lucide-react';
+import { X, Send, Sparkles, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 
@@ -75,14 +75,12 @@ const STORAGE_KEY = 'nichegenius-faq-chat';
 function matchFAQ(input: string): string {
   const normalized = input.toLowerCase().replace(/[?!.,;:'"/()$]/g, '').trim();
 
-  // Direct key match
   for (const [key, value] of Object.entries(FAQ_RESPONSES)) {
     if (normalized.includes(key) || key.includes(normalized)) {
       return value;
     }
   }
 
-  // Keyword matching
   const keywordMap: Record<string, string[]> = {
     'what is nichegenius ai': ['nichegenius', 'what is this', 'about', 'platform', 'what do you do', 'tell me about'],
     'how does the assessment work': ['assessment', 'questions', '155', 'quiz', 'test', 'survey', 'how does it work'],
@@ -127,7 +125,6 @@ function AriaAvatar({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
         className="rounded-full object-cover"
         priority
       />
-      {/* Glow ring */}
       <span className="absolute inset-0 rounded-full ring-2 ring-violet-500/40" />
     </div>
   );
@@ -137,7 +134,6 @@ function AriaAvatar({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
 
 export function FAQAssistant() {
   const [open, setOpen] = useState(false);
-  const [hovered, setHovered] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
@@ -186,27 +182,12 @@ export function FAQAssistant() {
   }, [messages, typing]);
 
   // Focus input when opened
-  // Auto-scroll
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    if (open && inputRef.current) {
+      setTimeout(() => inputRef.current?.focus(), 300);
     }
-  }, [messages, typing]);
-  
-  // Handle hover effects
-  const handleMouseEnter = useCallback(() => {
-    if (!open) setHovered(true);
   }, [open]);
-  
-  const handleMouseLeave = useCallback(() => {
-    if (!open) setHovered(false);
-  }, [open]);
-  // Auto-scroll
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages, typing]);
+
   const sendMessage = useCallback(
     (text: string) => {
       const trimmed = text.trim();
@@ -222,7 +203,6 @@ export function FAQAssistant() {
       setInput('');
       setTyping(true);
 
-      // Simulate typing delay (800-1500ms for more human feel)
       const delay = 800 + Math.random() * 700;
       setTimeout(() => {
         const response = matchFAQ(trimmed);
@@ -244,7 +224,7 @@ export function FAQAssistant() {
     sendMessage(input);
   };
 
-  // Simple markdown-ish rendering: bold and line breaks
+  // Simple markdown-ish rendering
   const renderContent = (text: string) => {
     const parts = text.split(/(\*\*[^*]+\*\*)/g);
     return parts.map((part, i) => {
@@ -278,8 +258,8 @@ export function FAQAssistant() {
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
             onClick={() => setOpen(true)}
             className={cn(
-              'fixed bottom-6 right-6 z-[9999]',
-              'w-[68px] h-[68px] rounded-full',
+              'fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[9999]',
+              'w-[60px] h-[60px] sm:w-[68px] sm:h-[68px] rounded-full',
               'bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-600',
               'shadow-lg shadow-violet-500/40',
               'flex items-center justify-center',
@@ -292,7 +272,7 @@ export function FAQAssistant() {
             <span className="absolute inset-0 rounded-full bg-violet-500/25 animate-ping" />
             <span className="absolute inset-0 rounded-full bg-gradient-to-br from-violet-400/20 to-purple-600/20 animate-pulse" />
             {/* Avatar */}
-            <div className="relative w-[60px] h-[60px] rounded-full overflow-hidden border-2 border-white/20 z-10">
+            <div className="relative w-[52px] h-[52px] sm:w-[60px] sm:h-[60px] rounded-full overflow-hidden border-2 border-white/20 z-10">
               <Image
                 src="/avatars/aria-avatar.svg"
                 alt="Aria"
@@ -302,7 +282,7 @@ export function FAQAssistant() {
               />
             </div>
             {/* Online indicator */}
-            <span className="absolute bottom-1 right-1 w-4 h-4 bg-emerald-400 rounded-full border-2 border-violet-600 z-20">
+            <span className="absolute bottom-0.5 right-0.5 sm:bottom-1 sm:right-1 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-emerald-400 rounded-full border-2 border-violet-600 z-20">
               <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-75" />
             </span>
           </motion.button>
@@ -319,17 +299,19 @@ export function FAQAssistant() {
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className={cn(
               'fixed z-[9999]',
-              'bottom-6 right-6 w-[400px] h-[600px]',
-              'max-sm:bottom-0 max-sm:right-0 max-sm:left-0 max-sm:w-full max-sm:h-[100dvh] max-sm:rounded-none',
+              // Mobile: full screen bottom sheet
+              'inset-0 sm:inset-auto',
+              // Desktop: positioned bottom-right
+              'sm:bottom-6 sm:right-6 sm:w-[400px] sm:h-[600px]',
               'flex flex-col',
-              'rounded-2xl overflow-hidden',
-              'bg-zinc-950/90 backdrop-blur-2xl',
-              'border border-white/[0.08]',
-              'shadow-2xl shadow-violet-500/10',
+              'sm:rounded-2xl overflow-hidden',
+              'bg-zinc-950/95 sm:bg-zinc-950/90 backdrop-blur-2xl',
+              'sm:border sm:border-white/[0.08]',
+              'sm:shadow-2xl sm:shadow-violet-500/10',
             )}
           >
             {/* ── Header ──────────────────────────────────────────── */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.08] bg-gradient-to-r from-violet-950/50 via-purple-950/30 to-indigo-950/50">
+            <div className="flex items-center justify-between px-4 sm:px-5 py-3.5 sm:py-4 border-b border-white/[0.08] bg-gradient-to-r from-violet-950/50 via-purple-950/30 to-indigo-950/50 safe-area-top">
               <div className="flex items-center gap-3">
                 <AriaAvatar size="md" />
                 <div>
@@ -348,17 +330,19 @@ export function FAQAssistant() {
               </div>
               <button
                 onClick={() => setOpen(false)}
-                className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors text-zinc-400 hover:text-white"
+                className="w-10 h-10 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors text-zinc-400 hover:text-white"
                 aria-label="Close chat"
               >
-                <X className="w-4 h-4" />
+                {/* Mobile: show chevron down for bottom-sheet feel, desktop: X */}
+                <X className="w-5 h-5 hidden sm:block" />
+                <ChevronDown className="w-5 h-5 sm:hidden" />
               </button>
             </div>
 
             {/* ── Messages ────────────────────────────────────────── */}
             <div
               ref={scrollRef}
-              className="flex-1 overflow-y-auto px-4 py-4 space-y-4 scrollbar-thin scrollbar-thumb-white/10"
+              className="flex-1 overflow-y-auto px-3 sm:px-4 py-4 space-y-4 scrollbar-thin scrollbar-thumb-white/10"
             >
               <AnimatePresence initial={false}>
                 {messages.map((msg) => (
@@ -372,13 +356,12 @@ export function FAQAssistant() {
                       msg.role === 'user' ? 'flex-row-reverse' : 'flex-row',
                     )}
                   >
-                    {/* Avatar for assistant messages */}
                     {msg.role === 'assistant' && <AriaAvatar size="sm" />}
 
-                    <div className="flex flex-col gap-1 max-w-[80%]">
+                    <div className="flex flex-col gap-1 max-w-[85%] sm:max-w-[80%]">
                       <div
                         className={cn(
-                          'px-4 py-3 rounded-2xl text-[13px] leading-relaxed',
+                          'px-3.5 sm:px-4 py-3 rounded-2xl text-[13px] sm:text-[13px] leading-relaxed',
                           msg.role === 'user'
                             ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-br-md shadow-lg shadow-violet-500/15'
                             : 'bg-white/[0.05] border border-white/[0.08] text-zinc-200 rounded-bl-md',
@@ -433,11 +416,11 @@ export function FAQAssistant() {
                       onClick={() => sendMessage(q)}
                       disabled={typing}
                       className={cn(
-                        'flex-shrink-0 px-3 py-1.5 rounded-full text-[11px] font-medium',
+                        'flex-shrink-0 px-3 py-2 sm:py-1.5 rounded-full text-[11px] font-medium',
                         'bg-violet-500/10 text-violet-300 border border-violet-500/20',
                         'hover:bg-violet-500/20 hover:text-violet-200 transition-all',
                         'disabled:opacity-40 disabled:cursor-not-allowed',
-                        'whitespace-nowrap cursor-pointer',
+                        'whitespace-nowrap cursor-pointer min-h-[36px] sm:min-h-[32px]',
                       )}
                     >
                       {q}
@@ -446,10 +429,10 @@ export function FAQAssistant() {
               </div>
             </div>
 
-            {/* ── Input ───────────────────────────────────────────── */}
+            {/* ── Input - larger on mobile ────────────────────────── */}
             <form
               onSubmit={handleSubmit}
-              className="flex items-center gap-2 px-4 py-3 border-t border-white/[0.08] bg-zinc-950/60"
+              className="flex items-center gap-2 px-3 sm:px-4 py-3 sm:py-3 border-t border-white/[0.08] bg-zinc-950/60 safe-area-bottom"
             >
               <input
                 ref={inputRef}
@@ -459,10 +442,13 @@ export function FAQAssistant() {
                 placeholder="Ask Aria anything..."
                 disabled={typing}
                 className={cn(
-                  'flex-1 bg-white/[0.06] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white',
+                  'flex-1 bg-white/[0.06] border border-white/10 rounded-xl',
+                  'px-4 py-3 sm:py-2.5',
+                  'text-base sm:text-sm text-white',
                   'placeholder:text-zinc-500 outline-none',
                   'focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/20',
                   'transition-all disabled:opacity-50',
+                  'min-h-[48px] sm:min-h-[40px]',
                 )}
               />
               <motion.button
@@ -471,14 +457,14 @@ export function FAQAssistant() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={cn(
-                  'w-10 h-10 rounded-xl flex items-center justify-center',
+                  'w-12 h-12 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center flex-shrink-0',
                   'bg-gradient-to-r from-violet-600 to-purple-600',
                   'text-white shadow-lg shadow-violet-500/25',
                   'hover:shadow-violet-500/40 transition-shadow',
                   'disabled:opacity-40 disabled:cursor-not-allowed',
                 )}
               >
-                <Send className="w-4 h-4" />
+                <Send className="w-4 h-4 sm:w-4 sm:h-4" />
               </motion.button>
             </form>
           </motion.div>

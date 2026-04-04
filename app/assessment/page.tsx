@@ -85,7 +85,7 @@ function LikertScale({
 }) {
   const labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'];
   return (
-    <div className="flex gap-3 justify-center flex-wrap">
+    <div className="flex gap-2 sm:gap-3 justify-center flex-wrap">
       {[1, 2, 3, 4, 5].map((n) => (
         <motion.button
           key={n}
@@ -93,14 +93,14 @@ function LikertScale({
           whileTap={{ scale: 0.95 }}
           onClick={() => onChange(n)}
           className={cn(
-            'flex flex-col items-center gap-2 px-5 py-4 rounded-xl border transition-all min-w-[90px]',
+            'flex flex-col items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-3 sm:py-4 rounded-xl border transition-all min-w-[60px] sm:min-w-[90px] min-h-[44px]',
             value === n
               ? 'bg-violet-500/20 border-violet-500/50 text-violet-300 shadow-lg shadow-violet-500/10'
               : 'bg-white/[0.03] border-white/[0.08] text-zinc-400 hover:border-white/20 hover:bg-white/[0.05]',
           )}
         >
-          <span className="text-2xl font-bold">{n}</span>
-          <span className="text-[10px] leading-tight text-center">{labels[n - 1]}</span>
+          <span className="text-xl sm:text-2xl font-bold">{n}</span>
+          <span className="text-[9px] sm:text-[10px] leading-tight text-center">{labels[n - 1]}</span>
         </motion.button>
       ))}
     </div>
@@ -128,7 +128,7 @@ function ChoiceCards({
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
       {options.map((opt) => {
         const isSelected = multi
           ? Array.isArray(selected) && selected.includes(opt.value)
@@ -140,7 +140,7 @@ function ChoiceCards({
             whileTap={{ scale: 0.98 }}
             onClick={() => toggle(opt)}
             className={cn(
-              'px-4 py-3 rounded-xl border text-left text-sm transition-all',
+              'px-4 py-3.5 sm:py-3 rounded-xl border text-left text-sm transition-all min-h-[48px]',
               isSelected
                 ? 'bg-violet-500/20 border-violet-500/50 text-violet-200'
                 : 'bg-white/[0.03] border-white/[0.08] text-zinc-400 hover:border-white/20',
@@ -148,12 +148,12 @@ function ChoiceCards({
           >
             <div className="flex items-center gap-3">
               <div className={cn(
-                'w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0',
+                'w-6 h-6 sm:w-5 sm:h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0',
                 isSelected ? 'border-violet-400 bg-violet-500/30' : 'border-zinc-600',
               )}>
-                {isSelected && <div className="w-2 h-2 rounded-full bg-violet-400" />}
+                {isSelected && <div className="w-2.5 h-2.5 sm:w-2 sm:h-2 rounded-full bg-violet-400" />}
               </div>
-              {opt.label}
+              <span className="text-sm">{opt.label}</span>
             </div>
           </motion.button>
         );
@@ -176,7 +176,7 @@ function TextInput({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder || 'Type your answer...'}
       rows={4}
-      className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/20 resize-none transition-all"
+      className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-base sm:text-sm placeholder:text-zinc-600 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/20 resize-none transition-all min-h-[120px]"
     />
   );
 }
@@ -191,8 +191,8 @@ function Timer({ startTime }: { startTime: number }) {
   const mins = Math.floor(elapsed / 60000);
   const secs = Math.floor((elapsed % 60000) / 1000);
   return (
-    <div className="flex items-center gap-1.5 text-sm text-zinc-500">
-      <Clock className="w-4 h-4" />
+    <div className="flex items-center gap-1.5 text-xs sm:text-sm text-zinc-500">
+      <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
       <span className="tabular-nums">{mins}:{secs.toString().padStart(2, '0')}</span>
     </div>
   );
@@ -250,7 +250,6 @@ export default function AssessmentPage() {
   // Navigation
   const goNext = useCallback(() => {
     if (currentIndex < totalQuestions - 1) {
-      // Check if we're finishing a section
       const nextQ = questions[currentIndex + 1];
       if (nextQ && currentQuestion && nextQ.category !== currentQuestion.category) {
         setShowConfetti(true);
@@ -306,7 +305,6 @@ export default function AssessmentPage() {
         router.push('/blueprint');
       }
     } catch {
-      // Still redirect on error for now
       localStorage.removeItem(STORAGE_KEY);
       router.push('/blueprint');
     }
@@ -326,30 +324,30 @@ export default function AssessmentPage() {
       'Generating your genius blueprint...',
     ];
     return (
-      <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+      <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center space-y-8 max-w-md px-4"
+          className="text-center space-y-8 max-w-md w-full"
         >
-          <div className="relative w-24 h-24 mx-auto">
+          <div className="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto">
             <div className="absolute inset-0 rounded-full border-2 border-white/10" />
             <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-violet-500 animate-spin" />
             <div className="absolute inset-2 rounded-full border-2 border-transparent border-t-purple-400 animate-spin [animation-duration:1.5s]" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <Brain className="w-8 h-8 text-violet-400" />
+              <Brain className="w-7 h-7 sm:w-8 sm:h-8 text-violet-400" />
             </div>
           </div>
 
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-white">Our AGI is analyzing your profile</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">Our AGI is analyzing your profile</h2>
             <AnimatePresence mode="wait">
               <motion.p
                 key={loadingPhase}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="text-violet-400 text-sm"
+                className="text-violet-400 text-xs sm:text-sm"
               >
                 {phases[loadingPhase]}
               </motion.p>
@@ -372,38 +370,40 @@ export default function AssessmentPage() {
     <div className="min-h-screen bg-zinc-950 text-white">
       <ConfettiBurst active={showConfetti} />
 
-      {/* Header */}
+      {/* Header - always visible with progress */}
       <header className="sticky top-0 z-40 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
-                <Brain className="w-4 h-4 text-white" />
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
+                <Brain className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
               </div>
-              <span className="font-semibold text-sm text-white">NicheGenius AI</span>
+              <span className="font-semibold text-xs sm:text-sm text-white hidden sm:inline">NicheGenius AI</span>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <Timer startTime={startTime} />
               <Badge variant="violet" size="sm">
-                {answeredCount}/{totalQuestions} answered
+                <span className="hidden sm:inline">{answeredCount}/{totalQuestions} answered</span>
+                <span className="sm:hidden">{answeredCount}/{totalQuestions}</span>
               </Badge>
             </div>
           </div>
+          {/* Progress bar always visible */}
           <ProgressBar value={progress} size="sm" showPercentage={false} />
-          <div className="flex items-center justify-between mt-2">
-            <span className="text-xs text-zinc-500">
+          <div className="flex items-center justify-between mt-1.5 sm:mt-2">
+            <span className="text-[10px] sm:text-xs text-zinc-500">
               {currentSection.icon} {currentSection.category} › {currentSection.label}
             </span>
-            <span className="text-xs text-zinc-500">
-              Question {currentIndex + 1} of {totalQuestions}
+            <span className="text-[10px] sm:text-xs text-zinc-500">
+              Q{currentIndex + 1}/{totalQuestions}
             </span>
           </div>
         </div>
       </header>
 
-      {/* Section Progress Dots */}
-      <div className="max-w-4xl mx-auto px-4 py-4">
-        <div className="flex gap-1 overflow-x-auto pb-2">
+      {/* Section Progress Dots - scrollable */}
+      <div className="max-w-4xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
+        <div className="flex gap-1 overflow-x-auto pb-2 scrollbar-none -mx-3 px-3">
           {SECTIONS.map((section, i) => {
             const sectionQuestions = questions.filter((q) => {
               return q.category.startsWith(section.id) || section.id === q.category;
@@ -415,7 +415,7 @@ export default function AssessmentPage() {
               <div
                 key={section.id}
                 className={cn(
-                  'flex-shrink-0 px-3 py-1.5 rounded-full text-[10px] font-medium transition-all',
+                  'flex-shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full text-[10px] font-medium transition-all min-h-[32px] flex items-center',
                   isCurrent
                     ? 'bg-violet-500/20 text-violet-300 border border-violet-500/30'
                     : isComplete
@@ -431,8 +431,8 @@ export default function AssessmentPage() {
         </div>
       </div>
 
-      {/* Question Area */}
-      <main className="max-w-2xl mx-auto px-4 pb-32">
+      {/* Question Area - full width on mobile */}
+      <main className="max-w-2xl mx-auto px-3 sm:px-4 pb-28 sm:pb-32">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={currentQuestion.id}
@@ -443,7 +443,7 @@ export default function AssessmentPage() {
             exit="exit"
             transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <GlassCard intensity="medium" className="p-8 space-y-8">
+            <GlassCard intensity="medium" className="p-5 sm:p-8 space-y-6 sm:space-y-8">
               {/* Question number & category */}
               <div className="flex items-center gap-2">
                 <Badge variant="violet" size="sm">Q{currentIndex + 1}</Badge>
@@ -451,12 +451,12 @@ export default function AssessmentPage() {
               </div>
 
               {/* Question text */}
-              <h2 className="text-xl sm:text-2xl font-bold text-white leading-relaxed">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white leading-relaxed">
                 {currentQuestion.text}
               </h2>
 
               {/* Answer input based on type */}
-              <div className="pt-4">
+              <div className="pt-2 sm:pt-4">
                 {currentQuestion.type === 'scale' && (
                   <LikertScale
                     value={typeof currentAnswer === 'number' ? currentAnswer : undefined}
@@ -490,44 +490,98 @@ export default function AssessmentPage() {
         </AnimatePresence>
       </main>
 
-      {/* Bottom Navigation */}
+      {/* Bottom Navigation - full width buttons on mobile */}
       <div className="fixed bottom-0 left-0 right-0 bg-zinc-950/90 backdrop-blur-xl border-t border-white/5 z-40">
-        <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Button
-            variant="ghost"
-            size="md"
-            onClick={goBack}
-            disabled={currentIndex === 0}
-            iconLeft={<ChevronLeft className="w-4 h-4" />}
-          >
-            Back
-          </Button>
-
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="md" onClick={skipQuestion}>
-              <SkipForward className="w-4 h-4 mr-1" />
-              Skip
-            </Button>
-
+        <div className="max-w-2xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
+          {/* Mobile: stack buttons vertically for better touch targets */}
+          <div className="flex sm:hidden flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="md"
+                onClick={goBack}
+                disabled={currentIndex === 0}
+                iconLeft={<ChevronLeft className="w-4 h-4" />}
+                className="flex-1 min-h-[48px]"
+              >
+                Back
+              </Button>
+              <Button
+                variant="ghost"
+                size="md"
+                onClick={skipQuestion}
+                className="flex-1 min-h-[48px]"
+              >
+                <SkipForward className="w-4 h-4 mr-1" />
+                Skip
+              </Button>
+            </div>
             {isLastQuestion ? (
               <Button
                 size="lg"
                 glow
+                fullWidth
                 onClick={handleSubmit}
                 disabled={answeredCount < Math.floor(totalQuestions * 0.8)}
                 iconRight={<Sparkles className="w-4 h-4" />}
+                className="min-h-[52px]"
               >
                 Analyze My Profile
               </Button>
             ) : (
               <Button
-                size="md"
+                size="lg"
+                fullWidth
                 onClick={goNext}
                 iconRight={<ChevronRight className="w-4 h-4" />}
+                className="min-h-[52px]"
               >
                 Next
               </Button>
             )}
+          </div>
+
+          {/* Desktop: horizontal layout */}
+          <div className="hidden sm:flex items-center justify-between">
+            <Button
+              variant="ghost"
+              size="md"
+              onClick={goBack}
+              disabled={currentIndex === 0}
+              iconLeft={<ChevronLeft className="w-4 h-4" />}
+              className="min-h-[44px]"
+            >
+              Back
+            </Button>
+
+            <div className="flex items-center gap-3">
+              <Button variant="ghost" size="md" onClick={skipQuestion} className="min-h-[44px]">
+                <SkipForward className="w-4 h-4 mr-1" />
+                Skip
+              </Button>
+
+              {isLastQuestion ? (
+                <Button
+                  size="lg"
+                  glow
+                  onClick={handleSubmit}
+                  disabled={answeredCount < Math.floor(totalQuestions * 0.8)}
+                  iconRight={<Sparkles className="w-4 h-4" />}
+                  className="min-h-[48px]"
+                >
+                  Analyze My Profile
+                </Button>
+              ) : (
+                <Button
+                  size="md"
+                  onClick={goNext}
+                  iconRight={<ChevronRight className="w-4 h-4" />}
+                  className="min-h-[44px]"
+                >
+                  Next
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
