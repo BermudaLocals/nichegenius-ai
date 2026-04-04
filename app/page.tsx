@@ -917,6 +917,140 @@ function FinalCTASection() {
   );
 }
 
+
+// ============================================
+// H2. MEET ARIA — AVATAR CTA
+// ============================================
+
+function MeetAriaSection() {
+  return (
+    <Section id="meet-aria" className="relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.1)_0%,transparent_70%)]" />
+
+      <div className="relative z-10 max-w-5xl mx-auto">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-100px' }}
+          variants={staggerContainer}
+          className="text-center mb-10 sm:mb-14"
+        >
+          <motion.div variants={fadeInUp} custom={0}>
+            <Badge variant="outline" className="mb-4 border-violet-500/30 text-violet-300">
+              <Sparkles className="w-3 h-3 mr-1" />
+              Interactive AI Avatar
+            </Badge>
+          </motion.div>
+          <motion.h2
+            variants={fadeInUp}
+            custom={0.1}
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4"
+          >
+            Meet{' '}
+            <GradientText>Aria</GradientText>
+            {' '}— Your AI Business Advisor
+          </motion.h2>
+          <motion.p
+            variants={fadeInUp}
+            custom={0.2}
+            className="text-zinc-400 max-w-2xl mx-auto text-base sm:text-lg"
+          >
+            Talk face-to-face with our AGI-powered avatar. Aria combines 10 specialist
+            agents, 3 AI models, and 2.4M data points to guide you to your perfect niche.
+          </motion.p>
+        </motion.div>
+
+        {/* Avatar Preview Card */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={scaleIn}
+          custom={0.3}
+          className="relative mx-auto max-w-lg"
+        >
+          <div className="relative rounded-3xl border border-white/[0.08] bg-black/60 backdrop-blur-xl overflow-hidden p-8 sm:p-10">
+            {/* Glow effects */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-violet-600/15 blur-[80px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180px] h-[180px] rounded-full bg-purple-500/20 blur-[50px]" />
+
+            {/* Avatar silhouette */}
+            <div className="relative z-10 flex flex-col items-center">
+              {/* Animated avatar preview */}
+              <div className="relative w-[200px] h-[240px] mb-6">
+                <svg viewBox="0 0 200 240" className="w-full h-full" style={{ filter: 'drop-shadow(0 0 20px rgba(139,92,246,0.4))' }}>
+                  <defs>
+                    <linearGradient id="aria-prev-head" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#7c3aed" stopOpacity="0.8" />
+                    </linearGradient>
+                    <linearGradient id="aria-prev-body" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.8" />
+                      <stop offset="100%" stopColor="#4c1d95" stopOpacity="0.5" />
+                    </linearGradient>
+                    <radialGradient id="aria-prev-eye">
+                      <stop offset="0%" stopColor="#c4b5fd" />
+                      <stop offset="60%" stopColor="#8b5cf6" />
+                      <stop offset="100%" stopColor="#6d28d9" stopOpacity="0" />
+                    </radialGradient>
+                  </defs>
+                  <g className="animate-float" style={{ animationDuration: '5s' }}>
+                    {/* Body */}
+                    <path d="M65 140 Q65 125 82 118 L100 115 L118 118 Q135 125 135 140 L142 195 Q142 218 118 225 L82 225 Q58 218 58 195 Z" fill="url(#aria-prev-body)" />
+                    {/* Neck */}
+                    <rect x="93" y="105" width="14" height="14" rx="6" fill="#a78bfa" fillOpacity="0.7" />
+                    {/* Head */}
+                    <ellipse cx="100" cy="75" rx="34" ry="40" fill="url(#aria-prev-head)" />
+                    {/* Hair */}
+                    <path d="M66 70 Q68 42 85 33 Q100 27 115 33 Q132 42 134 70" fill="#6d28d9" fillOpacity="0.5" />
+                    {/* Eyes */}
+                    <ellipse cx="87" cy="74" rx="5" ry="5" fill="url(#aria-prev-eye)" />
+                    <circle cx="87" cy="74" r="2.5" fill="#ede9fe" />
+                    <ellipse cx="113" cy="74" rx="5" ry="5" fill="url(#aria-prev-eye)" />
+                    <circle cx="113" cy="74" r="2.5" fill="#ede9fe" />
+                    {/* Smile */}
+                    <path d="M92 88 Q100 94 108 88" fill="none" stroke="#5b21b6" strokeWidth="1.5" strokeLinecap="round" />
+                  </g>
+                </svg>
+                {/* Pulse rings */}
+                <span className="absolute inset-0 rounded-full border border-violet-500/20 animate-ping" style={{ animationDuration: '3s' }} />
+                <span className="absolute inset-[-8px] rounded-full border border-violet-500/10 animate-ping" style={{ animationDuration: '3s', animationDelay: '1s' }} />
+              </div>
+
+              <h3 className="text-xl font-bold text-white mb-2">Aria</h3>
+              <p className="text-violet-300 text-sm mb-1">AGI-Powered Business Advisor</p>
+              <div className="flex items-center gap-1.5 mb-6">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-[11px] text-zinc-400">Online — Ready to chat</span>
+              </div>
+
+              {/* Stats */}
+              <div className="flex items-center gap-4 text-[11px] text-zinc-500 mb-8">
+                <span>10 AI Agents</span>
+                <span className="w-1 h-1 rounded-full bg-zinc-700" />
+                <span>3 Models</span>
+                <span className="w-1 h-1 rounded-full bg-zinc-700" />
+                <span>2.4M Data Points</span>
+              </div>
+
+              {/* CTA Button */}
+              <Link href="/avatar" className="w-full">
+                <Button
+                  size="lg"
+                  className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all group"
+                >
+                  Talk to Aria
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </Section>
+  );
+}
+
 // ============================================
 // I. FOOTER
 // ============================================
@@ -1003,6 +1137,7 @@ export default function HomePage() {
       <WhatYouGetSection />
       <AIFeaturesSection />
       <AgentsPreview />
+      <MeetAriaSection />
       <WhoIsForSection />
       <PricingSection />
       <FinalCTASection />
