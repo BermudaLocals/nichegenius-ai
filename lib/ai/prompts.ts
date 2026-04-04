@@ -76,7 +76,7 @@ For every niche you analyze, provide:
 - Experience Level: {{experience}}
 - Available Budget: {{budget}}
 - Time Commitment: {{timeCommitment}}
-- Target Monthly Income: ${{targetIncome}}
+- Target Monthly Income: ${"$"}{{targetIncome}}
 - Risk Tolerance: {{riskTolerance}}
 
 ## Analysis Request
@@ -127,7 +127,7 @@ Be encouraging but honest. Identify blind spots and skill gaps while emphasizing
 
 ## Financial Parameters
 - Available Budget: {{budget}}
-- Target Monthly Income: ${{targetIncome}}
+- Target Monthly Income: ${"$"}{{targetIncome}}
 - Risk Tolerance: {{riskTolerance}}
 
 ## Time & Commitment
@@ -189,9 +189,9 @@ Format output as structured JSON sections for programmatic consumption.`,
 ## User Profile
 - Skills: {{skills}}
 - Experience: {{experience}}
-- Budget: ${{budget}}
+- Budget: ${"$"}{{budget}}
 - Time: {{timeCommitment}} hours/week
-- Target Income: ${{targetIncome}}/month
+- Target Income: ${"$"}{{targetIncome}}/month
 
 ## Niche Analysis Data
 {{nicheAnalysis}}
@@ -301,7 +301,7 @@ Focus on products with high margins, digital scalability, and recurring revenue 
 ## Niche: {{nicheName}}
 ## Target Audience: {{targetAudience}}
 ## User Skills: {{skills}}
-## Budget: ${{budget}}
+## Budget: ${"$"}{{budget}}
 ## Pain Points: {{painPoints}}
 
 For each product idea, provide:
@@ -347,7 +347,7 @@ Your copy:
 ## Product: {{productName}}
 ## Niche: {{nicheName}}
 ## Target Audience: {{targetAudience}}
-## Price: ${{price}}
+## Price: ${"$"}{{price}}
 ## Key Benefits: {{benefits}}
 ## Pain Points: {{painPoints}}
 ## Unique Mechanism: {{uniqueMechanism}}
@@ -385,7 +385,7 @@ Every content strategy must be executable by a solo entrepreneur or small team, 
 
 ## Business: {{nicheName}}
 ## Target Audience: {{targetAudience}}
-## Content Budget: ${{budget}}/month
+## Content Budget: ${"$"}{{budget}}/month
 ## Time Available: {{timeCommitment}} hours/week for content
 ## Goals: {{goals}}
 ## Current Platforms: {{currentPlatforms}}
@@ -630,7 +630,7 @@ Design sales ladders that feel natural to buyers — each step providing genuine
 ## Niche: {{nicheName}}
 ## Core Product: {{coreProduct}}
 ## Target Audience: {{targetAudience}}
-## Budget for Product Creation: ${{budget}}
+## Budget for Product Creation: ${"$"}{{budget}}
 ## Skills: {{skills}}
 
 For each ladder stage, provide:

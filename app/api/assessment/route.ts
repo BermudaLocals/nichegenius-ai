@@ -1,20 +1,15 @@
 'use strict';
 
 import { NextResponse } from 'next/server';
-import { authenticateToken } from '@/app/middleware/auth';
-import { calculateAssessment } from '@/lib/assessment/engine';
 import { z } from 'zod';
 
-// Rate limiting store (in‑memory)
-const rateLimitStore = new Map<string>(/* ip => { count, windowStart } */);
-const WINDOW_MS = 60 * 1000; // 1 minute
-const MAX_REQUESTS = 60; // 60 per minute
+// Rate limiting store (in-memory)
+const rateLimitStore = new Map<string, { count: number; windowStart: number }>();
+const WINDOW_MS = 60 * 1000;
+const MAX_REQUESTS = 60;
 
 function getIP(req: Request): string {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0] || 
-             req.headers.get('remote-address') || 
-             '127.0.0.1';
-  return ip;
+  return req.headers.get('x-forwarded-for')?.split(',')[0] || '127.0.0.1';
 }
 
 function isRateLimited(ip: string): boolean {
@@ -24,87 +19,80 @@ function isRateLimited(ip: string): boolean {
     rateLimitStore.set(ip, { count: 1, windowStart: now });
     return false;
   }
-  const { count, windowStart } = record;
-  if (now - windowStart > WINDOW_MS) {
-    // Reset window
+  if (now - record.windowStart > WINDOW_MS) {
     rateLimitStore.set(ip, { count: 1, windowStart: now });
     return false;
   }
-  if (count >= MAX_REQUESTS) {
-    return true;
-  }
-  rateLimitStore.set(ip, { count: count + 1, windowStart });
+  if (record.count >= MAX_REQUESTS) return true;
+  rateLimitStore.set(ip, { count: record.count + 1, windowStart: record.windowStart });
   return false;
 }
 
-// Apply rate limiting
-function withRateLimit(req: Request, res: NextResponse) {
+export async function POST(req: Request) {
   const ip = getIP(req);
   if (isRateLimited(ip)) {
     return NextResponse.json(
       { error: 'Rate limit exceeded' },
-      { status: 429, headers: { 'Retry-After': `${Math.ceil(WINDOW_MS / 1000)}` } }
+      { status: 429, headers: { 'Retry-After': '60' } },
     );
   }
-  return res;
-}
 
-export async function POST(req: Request) {
-  // Apply JWT auth
-  const authResponse = await authenticateToken(req);
-  if (!authResponse.ok) {
-    return authResponse; // unauthorized/forbidden response
-  }
-
-  // Rate limiting
-  const authHeader = req.headers.get('authorization') || '';
-  const token = authHeader.split(' ')[1];
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0] || '127.0.0.1';
-  const rateLimitResponse = withRateLimit(req, NextResponse);
-  if (rateLimitResponse) return rateLimitResponse;
-
-  // Parse and validate request body
   const bodySchema = z.object({
-    answers: z.array(z.string()).min(155, 'Insufficient answers provided')
+    answers: z.array(
+      z.object({
+        questionId: z.string(),
+        value: z.union([z.string(), z.number(), z.array(z.string())]),
+      }),
+    ).min(1, 'At least one answer required'),
   });
+
   let parsed;
   try {
     const rawBody = await req.json();
     parsed = bodySchema.parse(rawBody);
-  } catch (e) {
-    return NextResponse.json(
-      { error: 'Invalid request payload' },
-      { status: 400 }
-    );
+  } catch {
+    return NextResponse.json({ error: 'Invalid request payload' }, { status: 400 });
   }
 
-  // Run assessment engine
   try {
-    const result = await calculateAssessment(parsed.answers);
-    return NextResponse.json(result, { status: 200 });
-  } catch (err: any) {
-    console.error('Assessment error:', err);
+    // Dynamically import to avoid build-time execution
+    const engine = await import('@/lib/assessment/engine');
+    const personality = engine.calculatePersonality(parsed.answers);
+    const nicheMatches = await engine.calculateNicheMatches(parsed.answers, personality);
+
     return NextResponse.json(
-      { error: 'Assessment processing failed' },
-      { status: 500 }
+      {
+        success: true,
+        personality,
+        nicheMatches,
+        answersCount: parsed.answers.length,
+        timestamp: new Date().toISOString(),
+      },
+      { status: 200 },
     );
+  } catch (err: unknown) {
+    console.error('Assessment error:', err);
+    return NextResponse.json({ error: 'Assessment processing failed' }, { status: 500 });
   }
 }
 
-export async function GET(req: Request) {
-  // Apply JWT auth (read‑only access still requires valid token)
-  const authResponse = await authenticateToken(req);
-  if (!authResponse.ok) {
-    return authResponse;
-  }
-
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0] || '127.0.0.1';
-  const rateLimitResponse = withRateLimit(req, NextResponse);
-  if (rateLimitResponse) return rateLimitResponse;
-
-  // Stub: In a real system pull saved assessment results from DB
+export async function GET() {
   return NextResponse.json(
-    { message: 'Assessment endpoint accessible' },
-    { status: 200 }
+    {
+      service: 'NicheGenius AI Assessment Engine',
+      version: '1.0.0',
+      questionsCount: 155,
+      sections: [
+        'MBTI Personality (20 questions)',
+        'Big Five Traits (25 questions)',
+        'Enneagram Type (15 questions)',
+        'Core Values (10 questions)',
+        'Background & Skills (15 questions)',
+        'Goals & Lifestyle (5 questions)',
+        'Content Style (5 questions)',
+      ],
+      status: 'ready',
+    },
+    { status: 200 },
   );
 }
