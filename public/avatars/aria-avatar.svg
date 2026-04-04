@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="50%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdbcb4"/>
+      <stop offset="100%" stop-color="#f4a896"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+    <linearGradient id="lips" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8556d"/>
+      <stop offset="100%" stop-color="#d4405a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="circle">
+      <circle cx="100" cy="100" r="96"/>
+    </clipPath>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="100" fill="url(#bg)"/>
+  <circle cx="100" cy="100" r="96" fill="#0f0a1a"/>
+  <!-- Glow effect -->
+  <circle cx="100" cy="100" r="96" fill="url(#glow)"/>
+  <g clip-path="url(#circle)">
+    <!-- Neck -->
+    <rect x="82" y="145" width="36" height="30" rx="8" fill="url(#skin)"/>
+    <!-- Shoulders/top -->
+    <ellipse cx="100" cy="195" rx="65" ry="35" fill="#1a1a2e"/>
+    <ellipse cx="100" cy="195" rx="60" ry="32" fill="#7c3aed" opacity="0.2"/>
+    <!-- Blouse neckline -->
+    <path d="M70 175 Q100 160 130 175 Q135 195 130 210 L70 210 Q65 195 70 175Z" fill="#1e1533"/>
+    <path d="M75 178 Q100 165 125 178" stroke="#a855f7" stroke-width="1" fill="none" opacity="0.5"/>
+    <!-- Hair back -->
+    <ellipse cx="100" cy="85" rx="55" ry="60" fill="url(#hair)"/>
+    <!-- Face -->
+    <ellipse cx="100" cy="95" rx="42" ry="48" fill="url(#skin)"/>
+    <!-- Hair front/bangs -->
+    <path d="M58 75 Q65 45 100 40 Q135 45 142 75 Q140 65 130 58 Q120 52 100 50 Q80 52 70 58 Q60 65 58 75Z" fill="url(#hair)"/>
+    <!-- Side hair left -->
+    <path d="M58 75 Q55 95 52 120 Q50 135 55 145 Q58 135 60 120 Q62 100 63 85Z" fill="url(#hair)"/>
+    <!-- Side hair right -->
+    <path d="M142 75 Q145 95 148 120 Q150 135 145 145 Q142 135 140 120 Q138 100 137 85Z" fill="url(#hair)"/>
+    <!-- Eyebrows -->
+    <path d="M75 78 Q82 73 92 76" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <path d="M108 76 Q118 73 125 78" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <!-- Eyes -->
+    <ellipse cx="84" cy="88" rx="10" ry="7" fill="white"/>
+    <ellipse cx="116" cy="88" rx="10" ry="7" fill="white"/>
+    <!-- Iris -->
+    <circle cx="85" cy="88" r="5" fill="#7c3aed"/>
+    <circle cx="117" cy="88" r="5" fill="#7c3aed"/>
+    <!-- Pupils -->
+    <circle cx="86" cy="87" r="2.5" fill="#1a1a2e"/>
+    <circle cx="118" cy="87" r="2.5" fill="#1a1a2e"/>
+    <!-- Eye sparkles -->
+    <circle cx="87" cy="86" r="1.2" fill="white"/>
+    <circle cx="119" cy="86" r="1.2" fill="white"/>
+    <circle cx="83" cy="89" r="0.7" fill="white" opacity="0.7"/>
+    <circle cx="115" cy="89" r="0.7" fill="white" opacity="0.7"/>
+    <!-- Eyelashes -->
+    <path d="M74 85 Q78 81 80 82" stroke="#1a1a2e" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path d="M88 82 Q91 80 94 83" stroke="#1a1a2e" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path d="M106 83 Q109 80 112 82" stroke="#1a1a2e" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path d="M120 82 Q123 80 126 85" stroke="#1a1a2e" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <!-- Nose -->
+    <path d="M98 95 Q100 102 102 95" stroke="#e8a894" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <circle cx="96" cy="102" r="1.5" fill="#e8a894" opacity="0.5"/>
+    <circle cx="104" cy="102" r="1.5" fill="#e8a894" opacity="0.5"/>
+    <!-- Smile/lips -->
+    <path d="M88 112 Q94 108 100 108 Q106 108 112 112" stroke="url(#lips)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <path d="M88 112 Q94 118 100 119 Q106 118 112 112" fill="url(#lips)" opacity="0.8"/>
+    <!-- Lip highlight -->
+    <path d="M94 110 Q100 108 106 110" stroke="white" stroke-width="0.5" stroke-linecap="round" fill="none" opacity="0.3"/>
+    <!-- Subtle blush -->
+    <circle cx="72" cy="100" r="8" fill="#f4a896" opacity="0.25"/>
+    <circle cx="128" cy="100" r="8" fill="#f4a896" opacity="0.25"/>
+    <!-- Earrings -->
+    <circle cx="58" cy="100" r="3" fill="#a855f7" opacity="0.8"/>
+    <circle cx="58" cy="100" r="1.5" fill="white" opacity="0.5"/>
+    <circle cx="142" cy="100" r="3" fill="#a855f7" opacity="0.8"/>
+    <circle cx="142" cy="100" r="1.5" fill="white" opacity="0.5"/>
+  </g>
+  <!-- Ring border -->
+  <circle cx="100" cy="100" r="97" stroke="url(#bg)" stroke-width="2.5" fill="none" opacity="0.8"/>
+  <circle cx="100" cy="100" r="99" stroke="#a855f7" stroke-width="0.5" fill="none" opacity="0.4"/>
+</svg>

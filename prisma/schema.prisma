@@ -1,0 +1,455 @@
+// ============================================
+// NicheGenius AI - Prisma Database Schema
+// ============================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ---- Enums ----
+
+enum SubscriptionTier {
+  FREE
+  STARTER
+  PRO
+  ENTERPRISE
+}
+
+enum AssessmentStatus {
+  PENDING
+  IN_PROGRESS
+  ANALYZING
+  COMPLETED
+  FAILED
+}
+
+enum BlueprintStatus {
+  DRAFT
+  GENERATING
+  COMPLETED
+  ARCHIVED
+}
+
+enum NicheConfidence {
+  LOW
+  MEDIUM
+  HIGH
+  VERY_HIGH
+}
+
+enum ProductType {
+  DIGITAL_COURSE
+  EBOOK
+  MEMBERSHIP
+  COACHING
+  SOFTWARE
+  PHYSICAL
+  SERVICE
+  TEMPLATE
+  COMMUNITY
+}
+
+enum SalesLadderStage {
+  LEAD_MAGNET
+  TRIPWIRE
+  CORE_OFFER
+  PROFIT_MAXIMIZER
+  CONTINUITY
+}
+
+enum ScriptType {
+  VSL
+  WEBINAR
+  EMAIL_SEQUENCE
+  AD_COPY
+  SOCIAL_POST
+  LANDING_PAGE
+  SALES_PAGE
+  BLOG_POST
+  VIDEO_SCRIPT
+  PODCAST_OUTLINE
+}
+
+enum AIProvider {
+  OPENAI
+  GOOGLE
+  ANTHROPIC
+  MCP
+}
+
+enum MCPServerType {
+  TREND_ANALYSIS
+  PRODUCT_IDEAS
+  CONTENT_GEN
+  MARKET_DATA
+  NICHE_RESEARCH
+  COMPETITOR_INTEL
+}
+
+// ---- Models ----
+
+model User {
+  id                String            @id @default(cuid())
+  clerkId           String            @unique
+  email             String            @unique
+  firstName         String?
+  lastName          String?
+  imageUrl          String?
+  subscription      SubscriptionTier  @default(FREE)
+  stripeCustomerId  String?           @unique
+  stripeSubId       String?           @unique
+  creditsRemaining  Int               @default(3)
+  creditsTotal      Int               @default(3)
+  onboardingDone    Boolean           @default(false)
+  preferences       Json?             @default("{}")
+  metadata          Json?             @default("{}")
+
+  assessments       Assessment[]
+  blueprints        Blueprint[]
+  nicheMatches      NicheMatch[]
+  products          Product[]
+  salesLadders      SalesLadder[]
+  scripts           Script[]
+  mcpLogs           MCPLog[]
+
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([clerkId])
+  @@index([email])
+  @@index([stripeCustomerId])
+  @@map("users")
+}
+
+model Assessment {
+  id                String            @id @default(cuid())
+  userId            String
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status            AssessmentStatus  @default(PENDING)
+  title             String            @default("New Assessment")
+
+  // User input data
+  skills            Json              @default("[]")
+  passions          Json              @default("[]")
+  experience        Json              @default("{}")
+  budget            Json              @default("{}")
+  goals             Json              @default("{}")
+  timeCommitment    String?
+  targetIncome      Int?
+  riskTolerance     String?           @default("moderate")
+
+  // AI analysis results
+  analysisResult    Json?             @default("{}")
+  skillGapAnalysis  Json?             @default("{}")
+  personalityFit    Json?             @default("{}")
+  aiProvider        AIProvider?       @default(OPENAI)
+  aiModelUsed       String?
+  tokensUsed        Int               @default(0)
+  processingTimeMs  Int               @default(0)
+
+  nicheMatches      NicheMatch[]
+  blueprints        Blueprint[]
+
+  completedAt       DateTime?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("assessments")
+}
+
+model Blueprint {
+  id                String            @id @default(cuid())
+  userId            String
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assessmentId      String?
+  assessment        Assessment?       @relation(fields: [assessmentId], references: [id], onDelete: SetNull)
+  nicheMatchId      String?
+  nicheMatch        NicheMatch?       @relation(fields: [nicheMatchId], references: [id], onDelete: SetNull)
+
+  status            BlueprintStatus   @default(DRAFT)
+  title             String
+  slug              String            @unique
+  summary           String?
+
+  // Blueprint sections (AI-generated)
+  executiveSummary  Json?             @default("{}")
+  marketAnalysis    Json?             @default("{}")
+  targetAudience    Json?             @default("{}")
+  competitorMap     Json?             @default("{}")
+  revenueModel      Json?             @default("{}")
+  marketingPlan     Json?             @default("{}")
+  contentStrategy   Json?             @default("{}")
+  launchTimeline    Json?             @default("{}")
+  financialPlan     Json?             @default("{}")
+  riskAssessment    Json?             @default("{}")
+  growthStrategy    Json?             @default("{}")
+  techStack         Json?             @default("{}")
+  kpiDashboard      Json?             @default("{}")
+
+  // Metadata
+  version           Int               @default(1)
+  aiProvider        AIProvider?       @default(OPENAI)
+  aiModelUsed       String?
+  tokensUsed        Int               @default(0)
+  processingTimeMs  Int               @default(0)
+  isPublic          Boolean           @default(false)
+  shareToken        String?           @unique
+
+  products          Product[]
+  salesLadders      SalesLadder[]
+  scripts           Script[]
+
+  generatedAt       DateTime?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([userId])
+  @@index([assessmentId])
+  @@index([slug])
+  @@index([status])
+  @@index([createdAt])
+  @@map("blueprints")
+}
+
+model NicheMatch {
+  id                String            @id @default(cuid())
+  userId            String
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assessmentId      String
+  assessment        Assessment        @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+  nicheName         String
+  nicheSlug         String
+  category          String
+  subcategory       String?
+
+  // Scoring
+  overallScore      Float             @default(0)
+  marketDemand      Float             @default(0)
+  competition       Float             @default(0)
+  profitPotential   Float             @default(0)
+  personalFit       Float             @default(0)
+  trendScore        Float             @default(0)
+  entryBarrier      Float             @default(0)
+  scalability       Float             @default(0)
+  confidence        NicheConfidence   @default(MEDIUM)
+
+  // AI analysis data
+  keywords          Json              @default("[]")
+  demographics      Json              @default("{}")
+  painPoints        Json              @default("[]")
+  opportunities     Json              @default("[]")
+  threats           Json              @default("[]")
+  trendData         Json              @default("{}")
+  competitorList    Json              @default("[]")
+  estimatedRevenue  Json              @default("{}")
+  reasoning         String?
+
+  blueprints        Blueprint[]
+
+  rank              Int               @default(0)
+  isSelected        Boolean           @default(false)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([userId])
+  @@index([assessmentId])
+  @@index([overallScore])
+  @@index([nicheSlug])
+  @@map("niche_matches")
+}
+
+model Product {
+  id                String            @id @default(cuid())
+  userId            String
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blueprintId       String?
+  blueprint         Blueprint?        @relation(fields: [blueprintId], references: [id], onDelete: SetNull)
+
+  name              String
+  description       String?
+  type              ProductType       @default(DIGITAL_COURSE)
+  pricePoint        Float             @default(0)
+  costEstimate      Float             @default(0)
+  marginPercent     Float             @default(0)
+
+  // Product details
+  features          Json              @default("[]")
+  deliverables      Json              @default("[]")
+  targetAudience    Json              @default("{}")
+  uniqueValue       String?
+  competitorPrices  Json              @default("[]")
+  launchStrategy    Json              @default("{}")
+  upsellPath        Json              @default("[]")
+
+  salesLadders      SalesLadder[]
+  scripts           Script[]
+
+  isActive          Boolean           @default(true)
+  sortOrder         Int               @default(0)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([userId])
+  @@index([blueprintId])
+  @@index([type])
+  @@map("products")
+}
+
+model SalesLadder {
+  id                String            @id @default(cuid())
+  userId            String
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blueprintId       String?
+  blueprint         Blueprint?        @relation(fields: [blueprintId], references: [id], onDelete: SetNull)
+  productId         String?
+  product           Product?          @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  stage             SalesLadderStage
+  title             String
+  description       String?
+  pricePoint        Float             @default(0)
+  conversionGoal    Float             @default(0)
+
+  // Ladder details
+  offerDetails      Json              @default("{}")
+  copyPoints        Json              @default("[]")
+  objections        Json              @default("[]")
+  bonuses           Json              @default("[]")
+  urgencyTriggers   Json              @default("[]")
+  emailSequence     Json              @default("[]")
+  adCreatives       Json              @default("[]")
+
+  scripts           Script[]
+
+  sortOrder         Int               @default(0)
+  isActive          Boolean           @default(true)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([userId])
+  @@index([blueprintId])
+  @@index([stage])
+  @@map("sales_ladders")
+}
+
+model Script {
+  id                String            @id @default(cuid())
+  userId            String
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blueprintId       String?
+  blueprint         Blueprint?        @relation(fields: [blueprintId], references: [id], onDelete: SetNull)
+  productId         String?
+  product           Product?          @relation(fields: [productId], references: [id], onDelete: SetNull)
+  salesLadderId     String?
+  salesLadder       SalesLadder?      @relation(fields: [salesLadderId], references: [id], onDelete: SetNull)
+
+  type              ScriptType
+  title             String
+  content           String            @db.Text
+  contentHtml       String?           @db.Text
+  wordCount         Int               @default(0)
+  estimatedDuration String?
+
+  // Script metadata
+  tone              String?           @default("professional")
+  targetEmotion     String?
+  callToAction      String?
+  hooks             Json              @default("[]")
+  keyMessages       Json              @default("[]")
+  variables         Json              @default("{}")
+
+  // AI generation info
+  aiProvider        AIProvider?       @default(OPENAI)
+  aiModelUsed       String?
+  tokensUsed        Int               @default(0)
+  promptUsed        String?           @db.Text
+
+  // HeyGen video
+  heygenVideoId     String?
+  heygenVideoUrl    String?
+  heygenStatus      String?
+
+  version           Int               @default(1)
+  isActive          Boolean           @default(true)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([userId])
+  @@index([blueprintId])
+  @@index([type])
+  @@map("scripts")
+}
+
+model KnowledgeEntry {
+  id                String            @id @default(cuid())
+
+  namespace         String            @default("general")
+  category          String
+  subcategory       String?
+  title             String
+  content           String            @db.Text
+  summary           String?
+
+  // Vector embedding reference
+  pineconeId        String?           @unique
+  embeddingModel    String?           @default("text-embedding-3-small")
+
+  // Metadata
+  source            String?
+  sourceUrl         String?
+  tags              Json              @default("[]")
+  metadata          Json              @default("{}")
+  quality           Float             @default(0.5)
+  accessCount       Int               @default(0)
+
+  isActive          Boolean           @default(true)
+  indexedAt          DateTime?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([namespace, category])
+  @@index([pineconeId])
+  @@index([tags])
+  @@map("knowledge_entries")
+}
+
+model MCPLog {
+  id                String            @id @default(cuid())
+  userId            String?
+  user              User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  serverType        MCPServerType
+  serverPort        Int
+  method            String
+  endpoint          String?
+
+  // Request/Response
+  requestPayload    Json?             @default("{}")
+  responsePayload   Json?             @default("{}")
+  statusCode        Int               @default(200)
+  errorMessage      String?
+
+  // Performance
+  latencyMs         Int               @default(0)
+  tokensUsed        Int               @default(0)
+  cacheHit          Boolean           @default(false)
+
+  createdAt         DateTime          @default(now())
+
+  @@index([userId])
+  @@index([serverType])
+  @@index([createdAt])
+  @@index([statusCode])
+  @@map("mcp_logs")
+}
