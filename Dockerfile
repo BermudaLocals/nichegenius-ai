@@ -15,6 +15,7 @@ RUN npm run build
 
 # Expose port
 EXPOSE 3000
+ENV PORT=3000
 
-# Start
-CMD ["npx", "next", "start", "-p", "3000"]
+# Use shell form so $PORT gets expanded
+CMD npx next start -p $PORT
