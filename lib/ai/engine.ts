@@ -81,8 +81,8 @@ export interface AIStructuredRequest<T> extends AIEngineRequest {
 
 const TASK_ROUTING: Record<TaskType, { provider: AIProviderName; model: string; temperature: number }> = {
   niche_analysis: {
-    provider: 'openai',
-    model: process.env.OPENAI_MODEL || 'gpt-4o',
+    provider: 'anthropic',
+    model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514',
     temperature: 0.7,
   },
   market_research: {

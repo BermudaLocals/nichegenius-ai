@@ -61,7 +61,7 @@ export async function POST(req: Request) {
   try {
     const engine = await import('@/lib/assessment/engine');
     const personality = engine.calculatePersonality(parsed.answers);
-    const nicheMatches = await engine.calculateNicheMatches(parsed.answers, personality);
+    const nicheMatches = await engine.calculateNicheMatches(personality, parsed.answers);
 
     return NextResponse.json(
       {
