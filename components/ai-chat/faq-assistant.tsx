@@ -115,11 +115,11 @@ function formatTime(ts: number): string {
 // ── Aria Avatar Component ────────────────────────────────────────────────
 
 function AriaAvatar({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
-  const sizes = { sm: 'w-8 h-8', md: 'w-10 h-10', lg: 'w-14 h-14' };
+  const sizes = { sm: 'w-7 h-7', md: 'w-9 h-9', lg: 'w-12 h-12' };
   return (
     <div className={cn('relative flex-shrink-0 rounded-full', sizes[size])}>
       <Image
-        src="/avatars/aria-avatar.svg"
+        src="/avatars/zara.png"
         alt="Aria — NicheGenius AI Assistant"
         fill
         className="rounded-full object-cover"
@@ -259,7 +259,7 @@ export function FAQAssistant() {
             onClick={() => setOpen(true)}
             className={cn(
               'fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[9999]',
-              'w-[60px] h-[60px] sm:w-[68px] sm:h-[68px] rounded-full',
+              'w-[48px] h-[48px] sm:w-[54px] sm:h-[54px] rounded-full',
               'bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-600',
               'shadow-lg shadow-violet-500/40',
               'flex items-center justify-center',
@@ -272,9 +272,9 @@ export function FAQAssistant() {
             <span className="absolute inset-0 rounded-full bg-violet-500/25 animate-ping" />
             <span className="absolute inset-0 rounded-full bg-gradient-to-br from-violet-400/20 to-purple-600/20 animate-pulse" />
             {/* Avatar */}
-            <div className="relative w-[52px] h-[52px] sm:w-[60px] sm:h-[60px] rounded-full overflow-hidden border-2 border-white/20 z-10">
+            <div className="relative w-[40px] h-[40px] sm:w-[46px] sm:h-[46px] rounded-full overflow-hidden border-2 border-white/20 z-10">
               <Image
-                src="/avatars/aria-avatar.svg"
+                src="/avatars/zara.png"
                 alt="Aria"
                 fill
                 className="object-cover"
